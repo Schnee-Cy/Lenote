@@ -1,0 +1,69 @@
+{% extends "lenotes/base.html" %} {% load widget_tweaks %} {% block title %}Menage{% endblock title %} {% block content %}
+<div class="section">
+    <form action="{% url 'lenotes:manage' group.id %}" enctype="multipart/form-data" method='post' novalidate class="myforms">
+        {% csrf_token %}
+        <h2>Manage</h2>
+        <hr/> {% include 'lenotes/forms/group_form.html' %}
+
+        <script type="text/javascript">
+            function delGroupConfirm() {
+                event.returnValue = confirm("Are you sure to delete this group?")
+            }
+
+            function quitGroupConfirm() {
+                event.returnValue = confirm("Are you sure to quit this group?")
+            }
+
+            function delMemberConfirm() {
+                event.returnValue = confirm("Are you sure to delete this member?")
+            }
+        </script>
+
+        {% ifequal group.owner request.user %}
+        <a href="{% url 'lenotes:del_group' group.id %}" class="btn btn-danger" onclick="delGroupConfirm()">Delete Group</a> {% else %}
+        <a href="{% url 'users:quit_group' group.id %}" class="btn btn-danger" onclick="quitGroupConfirm()">Quit the group</a> {% endifequal %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>UserName</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>introduce</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for info in memberInfos %}
+                <tr>
+                    {% ifequal group.owner info.user %}
+                    <td>{{ info.name }} (Group Owner)</td>
+                    {% else %}
+                    <td>{{ info.name }}</td>
+                    {% endifequal %}
+                    <td>{{ info.gender }}</td>
+                    <td>{{ info.email }}</td>
+                    <td>{{ info.intro }}</td>
+                    {% ifequal group.owner request.user %} {% ifnotequal group.owner info.user %}
+                    <td>
+                        <a href="{% url 'lenotes:del_member' group.id info.id %}" onclick="delMemberConfirm()" title="Delete">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                    {% endifnotequal %} {% endifequal %}
+                </tr>
+                {% empty %}
+                <li>Only you and no other Member.</li>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% ifequal group.owner request.user %}
+        <a href="{% url 'lenotes:send_invite' group.id %}" class="btn btn-default">Invite new member</a> {% endifequal %}
+
+
+        <div style="text-align: center">
+            <button name="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-outline-primary" href="/">Go Back</a>
+        </div>
+    </form>
+</div>
+{% endblock content %}

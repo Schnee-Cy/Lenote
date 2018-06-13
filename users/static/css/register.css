@@ -1,0 +1,7 @@
+.form-register {
+    max-width: 600px;
+    margin: 16px auto 0;
+    background: #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}

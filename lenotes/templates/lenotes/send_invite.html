@@ -1,0 +1,14 @@
+{% extends "lenotes/base.html" %} {% load bootstrap3 %} {% block header %}
+<h2>Invite a new member:</h2>
+{% endblock header %} {% block content %}
+
+<form action="{% url 'lenotes:send_invite' group_id  %}" method="POST" class="form">{% csrf_token %}
+
+    <div class="form-group">
+        <label for="invite_id">Invite ID</label>
+        <input type="text" class="form-control" name="invite_id">
+    </div>
+    <button type="submit" class="btn btn-primary">Comfirm</button>
+</form>
+
+{% endblock content %}

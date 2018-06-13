@@ -1,0 +1,87 @@
+{% load bootstrap3 %}{% load staticfiles %}{% load base %}
+<!DOCTYPE html>
+<style>
+    .myimg{
+    width:120px;
+    height:50px;
+    padding:15px 15px 15px 0px; 
+}
+</style>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Lenote</title>
+
+    {% bootstrap_css %} {% bootstrap_javascript %}
+
+</head>
+
+<body>
+
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                </button>
+                <a href="{% url 'lenotes:index' %}">
+                    <img class="myimg" src="{% static 'img/logo.png' %}" alt="" />
+                </a>
+            </div>
+
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'users:home' %}">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'lenotes:about_us' %}">About us</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'users:notice' %}" class="btn btn-default">Notice 
+                        {% ifnotequal user|getUnreadCount 0 %}
+                        <span class="badge ">{{ user|getUnreadCount }}</span>
+                        {% endifnotequal %}
+                    </a>
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{user.username}}
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="userMenu">
+                            <li role="presentation"><a class="dropdown-item" href="{% url 'users:reset_password' %}">Reset Password</a></li>
+                            <li role="presentation"><a class="dropdown-item" href="{% url 'users:send_message' %}">Send Message</a></li>
+                            <li role="presentation"><a class="dropdown-item" href="{% url 'users:settings' %}">Settings</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a class="dropdown-item" href="{% url 'users:logout' %}">Log out</a></li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <form class="form-inline ml-auto">
+                        <a href="{% url 'users:login' %}?next={{request.path}}" class="btn btn-default">Log In</a>
+                        <a href="{% url 'users:register' %}" class="btn btn-default">Register</a>
+                    </form>
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="page-header">
+            {% block header %}{% endblock %}
+        </div>
+        <div>
+            {% block content %}{% endblock %}
+        </div>
+
+    </div>
+
+</body>
+
+</html>

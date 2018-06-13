@@ -1,0 +1,35 @@
+from django.urls import path
+
+from lenotes import views
+
+app_name = 'lenotes'
+
+urlpatterns = [
+    path('', views.index, name = 'index'),
+
+    path('about_us/', views.about_us, name = 'about_us'),
+    
+    path('group/', views.groups, name = 'groups'),
+
+    path('group/<int:group_id>', views.group, name = 'group'),
+
+    path('group_diary/<int:group_id>/<int:diary_id>', views.group_diary, name = 'group_diary'),
+
+    path('manage/<int:group_id>', views.manage, name = 'manage'),
+    
+    path('del_member/<int:group_id><int:info_id>', views.del_member, name = 'del_member'),
+
+    path('send_invite/<int:group_id>', views.send_invite, name = 'send_invite'),
+
+    path('new_group/', views.new_group, name = 'new_group'),
+
+    path('del_group/<int:group_id>', views.del_group, name = 'del_group'),
+
+    path('new_diary/<int:group_id>', views.new_diary, name = 'new_diary'),
+
+    path('edit_diary/<int:diary_id>', views.edit_diary, name = 'edit_diary'),
+    
+    path('del_diary/<int:diary_id>', views.del_diary, name = 'del_diary'),
+
+    path('add_diary/<int:group_id>', views.add_diary, name = 'add_diary'),
+]

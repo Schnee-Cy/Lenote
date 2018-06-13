@@ -1,0 +1,12 @@
+{% extends "lenotes/base.html" %} {% load bootstrap3 %} {% block header %}
+<h3><a href="{% url 'lenotes:group' group.id %}">{{ group }}</a></h3>
+{% endblock header %} {% block content %}
+
+<h4>Edit diary:</h4>
+
+<form action="{% url 'lenotes:edit_diary' diary.id %}" method='post' class="form">
+    {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+    <button name="submit" class="btn btn-primary">Save changes</button> {% endbuttons %}
+</form>
+
+{% endblock content %}

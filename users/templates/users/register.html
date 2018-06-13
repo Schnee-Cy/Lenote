@@ -1,0 +1,23 @@
+{% extends "lenotes/base.html" %} {% load widget_tweaks %} {% block title %}Register{% endblock title %} {% block content %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+<div class="section">
+    <form class="form-users" method="post" enctype="multipart/form-data" action="{% url 'users:register' %}">
+        {% csrf_token %}
+        <center>
+            <h2>Register</h2>
+        </center>
+        <hr>
+        <div class="form-group form-register">
+            {% include 'users/forms/user_form.html' %} {% include 'users/forms/info_form.html' %}
+        </div>
+        <div style="text-align: center">
+            <button name="submit" class="btn btn-primary">Register</button>
+            <a class="btn btn-outline-primary" href="/">Go Back</a>
+        </div>
+        <input type="hidden" name="next" value="{% url 'lenotes:index' %}" />
+    </form>
+    <div style="text-align: center">
+        <p>Have an account? <a href="{% url 'users:login' %}">Click</a> to log in.</p>
+    </div>
+</div>
+{% endblock content %}

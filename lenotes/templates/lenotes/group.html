@@ -1,0 +1,43 @@
+{% extends 'lenotes/base.html' %} {% block header %}
+<h2>{{ group }}</h2>
+{% endblock header %} {% block content %}
+<p>
+    {{group.intro}}
+    <ul class="nav navbar-nav navbar-right">
+        <a class="btn btn-default" href="{% url 'lenotes:manage' group.id %}" role="button">Manage</a>
+    </ul>
+</p>
+
+<div>
+    <p></p>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Diary</th>
+            <th>Create Time</th>
+            <th>Content</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for diary in diarys %}
+        <tr>
+            <td><a href="{% url 'lenotes:edit_diary' diary.id %}">{{ diary.name }}</a></td>
+            <td>{{ diary.date_added|date:'M d, Y H:i' }}</td>
+            <td>{{ diary }}</td>
+            <td>
+                <a href="{% url 'lenotes:del_diary' diary.id %}" title="Delete">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <li>No diary have been created yet.</li>
+        {% endfor %}
+    </tbody>
+</table>
+<p>
+    <a href="{% url 'lenotes:new_diary' group.id %}" class="btn btn-default">create new diary</a>
+</p>
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends "lenotes/base.html" %} {% block header %}
+<h1>Groups</h1>
+{% endblock %} {% block content %}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Group</th>
+            <th>Introduce</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for group in groups %}
+        <tr>
+            <td><a href="{% url 'lenotes:group' group.id %}">{{ group.name }}</a></td>
+            <td>{{group.intro}}</td>
+            <td><a href="{% url 'lenotes:del_group' group.id %}">Delete</a></td>
+        </tr>
+        {% empty %}
+        <li>No group have been created yet.</li>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4><a href="{% url 'lenotes:new_group' %}" class="btn btn-deaflut">Create new group</a></h4>
+
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends "lenotes/base.html" %} {% load widget_tweaks %} {% block title %}Settings{% endblock title %} {% block content %}
+<div class="section">
+    <form action="{% url 'users:settings' %}" enctype="multipart/form-data" method='post' novalidate class="myforms">
+        {% csrf_token %}
+        <h2>Settings</h2>
+        <hr/> {% include 'users/forms/info_form.html' %}
+        <div style="text-align: center">
+            <button name="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-outline-primary" href="/">Go Back</a>
+        </div>
+    </form>
+</div>
+{% endblock content %}

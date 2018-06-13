@@ -1,0 +1,34 @@
+{% extends "lenotes/base.html" %} {% block header %} {% load static %}
+<div style="width: 200px; height: 200px;">
+    <img style="width:200px;height:200px;overflow:hidden;" src="/media/{{userinfo.profile}}" alt="">
+</div>
+
+<h2><strong>{{userinfo.name}}</strong> <small>{{userinfo.gender}}</small></h2>
+<h4>{{userinfo.email}}</h4>
+<h3>{{userinfo.intro}}</h3>
+
+<p></p>
+{% endblock header %} {% block content %}
+
+<table class="table table-hover ">
+    <thead>
+        <tr>
+            <th>Groups</th>
+            <th>Introduce</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for group in groups %}
+        <tr>
+            <td><a href="{% url 'lenotes:group' group.id %} ">{{ group.name }}</a></td>
+            <td>{{group.intro}}</td>
+        </tr>
+        {% empty %}
+        <li>No group have been created yet.</li>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4><a href="{% url 'lenotes:new_group' %} " class="btn btn-default ">Create new group</a></h4>
+
+{% endblock content %}

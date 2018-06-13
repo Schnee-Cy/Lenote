@@ -1,0 +1,83 @@
+{% extends "lenotes/base.html" %} {% block header %} {% load static %}
+<html lang="en">
+
+
+<head>
+    <title>Lenote</title>
+    <meta charset="utf-8">
+    <meta name="author" content="pixelhint.com">
+    <meta name="description" content="Heros - Learn How To Convert a PSD Template TO HTML5/CSS3" />
+    <!-- CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+    <!-- Javascript Files -->
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/slider.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/wow.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+</head>
+
+<body>
+
+    <!-- Slider Section -->
+    <section class="slider_wrapper">
+
+        <div id="slides">
+
+            <div class="slide">
+                <img src="{% static 'img/slide1.jpg' %}" alt="" />
+                <h3 class="caption">记录每日生活的一点一滴</h3>
+            </div>
+
+            <div class="slide">
+                <img src="{% static 'img/slide2.jpg' %}" alt="" />
+                <h3 class="caption">与家人和朋友分享快乐</h3>
+            </div>
+
+            <div class="slide">
+                <img src="{% static 'img/slide3.jpg' %}" alt="" />
+                <h3 class="caption">回味人生中的重大历程</h3>
+            </div>
+
+        </div>
+
+    </section>
+    <!-- end slider -->
+
+    <!-- Services Section -->
+    <section class="services container clearfix">
+
+        <!-- Services Title  -->
+        <div class="section_title animated wow fadeInUp">
+            <h2>What We Do.</h2>
+        </div>
+
+        <!-- Services List  -->
+        <div class="services_list">
+            <ul>
+                <li class="animated wow fadeInRight" data-wow-delay=".2s">
+                    <h3>记录生活</h3>
+                    <p>以日记来记录每日生活的一点一滴，无需纸笔，方便回顾</p>
+                </li>
+                <li class="animated wow fadeInRight" data-wow-delay=".3s">
+                    <h3>分享讨论</h3>
+                    <p>与志同道合的朋友交流，写下读书心得</p>
+                </li>
+                <li class="animated wow fadeInRight" data-wow-delay=".4s">
+                    <h3>活动回顾</h3>
+                    <p>人生中的每件大事，每个精彩瞬间，从此都不会错过</p>
+                </li>
+            </ul>
+        </div>
+
+    </section>
+    <!-- end services -->
+
+</body>
+
+</html>
+
+{% endblock %}

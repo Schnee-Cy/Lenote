@@ -1,0 +1,12 @@
+{% extends "lenotes/base.html" %} {% load bootstrap3 %} {% block header %}
+<h2>Create a new Group:</h2>
+{% endblock header %} {% block content %}
+
+<form action="{% url 'lenotes:new_group' %}" method='post' class="form">
+
+    {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+    <button name="submit" class="btn btn-primary">Create group</button> {% endbuttons %}
+
+</form>
+
+{% endblock content %}
