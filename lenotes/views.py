@@ -6,10 +6,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 
-from lenotes.models import Group, Diary, Invitation
+from lenotes.models import Group, Diary, Invitation, Imgele, Textele
 from users.models import UserInfo, Message
 from lenotes.forms import GroupForm, DiaryForm, InvitationForm
 from users.views import update_userInfo_unread_count
+
+from datetime import datetime
+
  
 def index(request):
     if request.user.is_authenticated:
@@ -29,47 +32,82 @@ def groups(request):
 @login_required
 def group(request, group_id):
     """群组主页"""
-    group = Group.objects.get(id=group_id)
-    diarys = group.diary_set.order_by('-date_added')
-    context = {'group': group, 'diarys': diarys}
-    return render(request, 'lenotes/group.html', context)
-    # diary_id = diarys[0].id
-    # return HttpResponseRedirect(reverse('lenotes:group_diary', args=[group_id,diary_id]))
+   # get_group = Group.objects.get(id=group_id)
+   # diarys = get_group.diary_set.order_by('-date_added')
+   # if len(diarys)==0:
+    #    Diary.objects.create(group = get_group)
+    #context = {'group': group, 'diarys': diarys}
+   # return render(request, 'lenotes/group.html', context)
+    year = datetime.now().year
+    month = datetime.now().month
+    return HttpResponseRedirect(reverse('lenotes:diary_month', args=[group_id, year, month, 1]))
 
-@login_required
-def group_diary(request, group_id, diary_id):
-    """分日记"""
-    group = Group.objects.get(id=group_id)
-    diarys = group.diary_set.order_by('-date_added')
-    tarDiary = Diary.objects.get(id = diary_id)
-    idx = 0
-    for d in diarys:
-        if d==tarDiary:
-            break;
-        idx += 1
-    size = len(diarys)
-    pastid = []
-    showdate = []
-    num = 0
-    offset = -3
-    while num<5:
-        offset += 1
-        nowidx = idx + offset
-        if nowidx>=0 and nowidx<size:
-            pastid.append(diarys[nowidx].id)
-            showdate.append(diarys[nowidx].date_added)
-            num += 1
-        elif nowidx>=size:
-            break
-        
-    for i in range(len(pastid),5):
-        pastid.append(diarys[0].id)
-        showdate.append(' ')
-    context = {'group': group, 'diarys': diarys,
-    'pastid' : pastid,
-    'showdate' : showdate
+
+@login_required   
+def diary_month(request, group_id, year, month, styleSelect):
+    get_group = Group.objects.get(id=group_id)
+    tdiary = get_group.diary_set.order_by('-date_added')
+    createJudge = False
+    editJudge = False
+    diaryid = 1
+    if tdiary.count()==0:
+        createJudge = True
+    elif tdiary[0].date_added.year != datetime.now().year or tdiary[0].date_added.month != datetime.now().month\
+        or tdiary[0].date_added.day != datetime.now().day:
+        createJudge = True  
+
+    if tdiary.count()!=0:
+        diaryid = tdiary[0].id
+    
+    if not createJudge:   #说明已经创建了当天的日记
+        editJudge = True
+    diarys = get_group.diary_set.filter(date_added__year=year, date_added__month = month)
+    odiarys = diarys.order_by('date_added')    
+    lastMonth = 1
+    lastYear = 1
+    nextMonth = 1
+    nextYear = 1
+    
+    lastMonthJudge = True
+    if month==tdiary[len(tdiary)-1].date_added.month:
+        lastMonthJudge = False
+    if month==1:
+        lastMonth = 12
+        lastYear = year-1
+    else:
+        lastMonth = month-1
+        lastYear = year
+
+    nextMonthJudge = True
+    if month==datetime.now().month:
+        nextMonthJudge = False
+    
+    if month==12:
+        nextMonth = 1
+        nextYear = year+1
+    else:
+        nextMonth = month+1
+        nextYear = year
+    
+    context = {
+        'group': get_group, 
+        'odiarys': odiarys, 
+        'createJudge': createJudge,
+        'nowYear': year,
+        'nowMonth': month,
+        'lastMonth': lastMonth,
+        'lastYear': lastYear,
+        'lastMonthJudge': lastMonthJudge,
+        'nextMonthJudge': nextMonthJudge,
+        'nextMonth': nextMonth,
+        'nextYear': nextYear,
+        'editJudge': editJudge,
+        'diaryid': diaryid,
     }
-    return render(request, 'lenotes/group_diary.html', context)
+    if styleSelect == 1:
+        return render(request, 'lenotes/group_diary_md.html', context)
+    elif styleSelect == 2:
+        return render(request, 'lenotes/group_diary.html', context)
 
 @login_required
 def manage(request, group_id):
@@ -89,7 +127,10 @@ def manage(request, group_id):
                 group = Group.objects.create(id=group_id)
         group.name = group_form.cleaned_data["name"]
         group.intro = group_form.cleaned_data["intro"]
-        group.profile = group_form.cleaned_data["profile"]
+        myprofile = request.FILES.get('profile',None)
+        if myprofile:
+            group.profile.delete()
+            group.profile = myprofile
         group.save()
         return HttpResponseRedirect(reverse('lenotes:group', args=[group.id]))
     members = group.members.all()
@@ -173,7 +214,30 @@ def new_diary(request, group_id):
     return render(request, 'lenotes/new_diary.html', context)
 
 @login_required
-def edit_diary(request, diary_id):
+def edit_diary(request, group_id, diary_id):
+    diary = Diary.objects.get(id = diary_id)
+    if request.method == 'POST':
+        obj = request.FILES.get('Imgfield',None)
+        if obj:
+            new_img = Imgele.objects.create(img = obj, belong = diary)
+            new_img.idname = "IMG" + str(new_img.id)
+            new_img.save()
+        tex = request.POST.get('newText', None)
+        if tex:
+            new_text = Textele.objects.create(belong=diary, content=tex)
+            new_text.idname = "TEXT" + str(new_text.id)
+            new_text.save()
+    group = Group.objects.get(id = group_id)
+    diary = Diary.objects.get(id = diary_id)
+
+    context = {
+        'group': group,
+        'diary': diary,
+    }
+    return render(request, 'lenotes/edit_diary.html', context)
+
+@login_required
+def edit_diary_md(request, diary_id):
     """编辑既有条目"""
     diary = Diary.objects.get(id=diary_id)
     group = diary.group
@@ -184,8 +248,12 @@ def edit_diary(request, diary_id):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('lenotes:group', args=[group.id]))
-    context = {'diary': diary, 'group': group, 'form': form}
-    return render(request, 'lenotes/edit_diary.html', context)
+    context = {
+        'diary': diary, 
+        'group': group, 
+        'form': form
+    }
+    return render(request, 'lenotes/edit_diary_md.html', context)
 
 @login_required
 def del_diary(request, diary_id):

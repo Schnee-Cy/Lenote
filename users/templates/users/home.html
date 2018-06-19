@@ -1,68 +1,6 @@
 {% extends "lenotes/base.html" %} {% block header %} {% load static %}
 <html>
-        
 <head>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>
-        演示代码
-    </title>
-    <style>
-        .content{
-            overflow:hidden; 
-            text-overflow:ellipsis;
-            display:-webkit-box; 
-            -webkit-box-orient:vertical;
-            -webkit-line-clamp:2;
-            height: 50px;
-        }
-        /* .content::after {
-            content:"...";
-            font-weight:bold;
-            position:absolute;
-            bottom:0;
-            right:0;
-            padding:0 20px 1px 45px;
-            background:url(http://css88.b0.upaiyun.com/css88/2014/09/ellipsis_bg.png) repeat-y;
-        } */
-        /* .content{
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            width:200px;
-            height: 70px;
-        } */
-        .show_detail_info{
-            position: absolute;
-            background-color: white;
-            border: 1px solid black;
-            position:absolute;
-            z-index:999;
-            top:0;
-            white-space: wrap;
-            width:200px;
-        }
-    </style>
-    <script>
-        function overShow(obj,e) {
-        var showDiv = document.getElementById('showDiv');
-        var X = $('#info').offset().left;
-        var Y = $('#info').offset().top;
-        var theEvent = window.event|| e;
-        showDiv.style.left = theEvent.clientX - X +"px";
-        showDiv.style.top = theEvent.clientY - Y +"px";
-        showDiv.style.display = 'block';
-        //alert(obj.innerHTML);
-        showDiv.innerHTML = obj.innerHTML;
-        }
-
-        function outHide() {
-            var showDiv = document.getElementById('showDiv');
-            showDiv.style.display = 'none';
-            showDiv.innerHTML = '';
-        }
-    </script>
-
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/homestyle.css' %}">
@@ -72,27 +10,26 @@
 <body>
     <div class="banner-body">
         <div class="container">
-            <div class="col-xs-3 banner-body-left">
-                <div class="width: 200px; height: 200px;">
-                    <img style="width:200px;height:200px;overflow:hidden;" src="/media/{{userinfo.profile}}" alt="">
+            <div style = 'width: 800px;height:100px;'>
+                <div style = "margin:0 0 0 290px; float: left;">
+                    <img class = "img-circle" style="width:150px;height:150px;overflow:hidden;" src="/media/{{userinfo.profile}}" alt="">
                 </div>
-                <br/>
-                <div class="top-nav">
+                <div style = "float: right;"class="top-nav">
                     <nav class="navbar navbar-default1">
                         <div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
                             <nav class="stroke">
                                 <ul class="nav navbar-nav1">
                                     <li>
-                                        <h2><strong>{{userinfo.name}}</strong>
-                                            <small>{{userinfo.gender}}</small></h2>
+                                        <div style = 'float:left; font-size: 30px;'>{{userinfo.name}}</div>
+                                        <div style = 'padding: 20px;font-size: 10px;float:left;'>{{userinfo.gender}}</div>
                                     </li>
                                     <br/>
                                     <li>
-                                        <h4>{{userinfo.email}}</h4>
+                                        <div class = 'email_info'>{{userinfo.email}}</div>
                                     </li>
                                     <br/>
                                     <li>
-                                        <h4>{{userinfo.intro}}</h4>
+                                        <div class = 'user_info'>{{userinfo.intro}}</div>
                                     </li>
 
                                 </ul>
@@ -101,27 +38,34 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-xs-9 banner-body-right">
-                <h2>Groups</h2>
+            <div style = 'margin:0 auto;'>
+                <br/>
+                <br/>
                 <br/>
                 <div class="line_divide_group"></div>  
                 <br/>
                 <br/>
-                <div id="info" class="msg-text-bottom">
+                <br/>
+                
+                <div class="msg-text-bottom">
                     {% for group in groups %}
-                    <div class="col-md-4 msg-text-bottom-left">
+                    <div class="msg-text-bottom-left" style = "width: 280px; height: 320px;  float: left;">
                         <figure class="effect-winston">
                             <a href="{% url 'lenotes:group' group.id %} "><img src="/media/{{group.profile}}" alt=" " class="img-responsive" />
                             </a>
                         </figure>
                         <h3><a href="{% url 'lenotes:group' group.id %} ">{{ group.name }}</a></h3>
-                        <div class='content' onmouseover="overShow(this,event)" onmouseout="outHide()">{{ group.intro }}</div>
-                        <div id="showDiv" class = "show_detail_info"></div>
+                        <p class = 'my_content'>{{ group.intro }}</p>
+                        <br/>
                     </div>
                     {% endfor %}
                     <div class="clearfix"> </div>
                 </div>
-                <h4><a href="{% url 'lenotes:new_group' %} " class="btn btn-default ">Create new group</a></h4>
+                <br/>
+                <br/>
+                <h4><a href="{% url 'lenotes:new_group' %} " class="btn btn-default creat_group_button">Create new group</a></h4>
+                <br/>
+                <br/>
             </div>
         </div>
     </div>

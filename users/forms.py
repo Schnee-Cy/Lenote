@@ -14,7 +14,7 @@ class InfoForm(forms.ModelForm):
             'gender',
             'email',
             'intro',
-            'profile',
+        
         ]
         labels = {
             'name': 'User Name',

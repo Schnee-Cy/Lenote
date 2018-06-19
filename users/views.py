@@ -97,7 +97,7 @@ def settings(request):
         }
         return render(request, 'users/settings.html' , context)
     else:
-        info_form = InfoForm(request.POST, request.FILES)
+        info_form = InfoForm(request.POST)
         if info_form.is_valid():
             try:
                 info = UserInfo.objects.get(user = request.user)
@@ -107,7 +107,10 @@ def settings(request):
         info.gender = info_form.cleaned_data["gender"]
         info.email = info_form.cleaned_data["email"]
         info.intro = info_form.cleaned_data["intro"]
-        info.profile = info_form.cleaned_data["profile"]
+        myprofile = request.FILES.get('profile',None)
+        if myprofile:
+            info.profile.delete()
+            info.profile = myprofile
         info.save()
         return HttpResponseRedirect(reverse('users:home'))
     

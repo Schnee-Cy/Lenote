@@ -1,6 +1,6 @@
 from django import forms
-from markdownx.fields import MarkdownxFormField
 from lenotes.models import Group, Diary, Invitation
+from markdownx.fields import MarkdownxFormField
 
 class GroupForm(forms.ModelForm):
     class Meta:
@@ -8,28 +8,25 @@ class GroupForm(forms.ModelForm):
         fields = [
             'name',
             'intro',
-            'profile',
         ]
         labels = {
             'name': 'Group Name',
-            'intro': 'Group introduce',
+            'intro': 'Group Introduce',
         }
 
 class DiaryForm(forms.ModelForm):
     class Meta:
         model = Diary
         fields = [
-            'name',
             'content',
         ]
         labels = {
-            'name' : 'Name',
-            'content' : 'Content',
+            'content' : 'Content ( Markdown supportted )',
         }
     def __init__(self, *args, **kwargs):
         super(DiaryForm, self).__init__(*args, **kwargs)
         self.fields['content'] = MarkdownxFormField()
-        self.fields['content'].label = 'Content'
+        self.fields['content'].label = 'Content ( Markdown supportted )'
 
 class InvitationForm(forms.ModelForm):
     class Meta:
@@ -37,4 +34,4 @@ class InvitationForm(forms.ModelForm):
         fields = ['invite_id']
         labels = {'invite_id': 'Invite ID'}
     def get_id(self):
-        return self.fields['invite_id']
+        return self.fields['invite_id'] 

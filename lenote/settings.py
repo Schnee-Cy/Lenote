@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from datetime import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     #third party app
     'bootstrap3',
     'widget_tweaks',
+    'markdownx',
 
     #my app
     'lenotes',
@@ -114,13 +116,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Hong_Kong'
+TIME_ZONE = 'Asia/Shanghai'
+
+USE_TZ = False
 
 USE_I18N = True
 
 USE_L10N = True
-
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -133,9 +135,26 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# markdownx options
+MARKDOWNX_EDITOR_RESIZABLE = False
+MARKDOWNX_MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.extra',
+    'markdown.extensions.nl2br',
+    'markdown.extensions.codehilite',
+]
+MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdown/upload/%Y/%m/%d')
+MARKDOWNX_UPLOAD_MAX_SIZE = 4 * 1024 * 1024
+MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml']
+MARKDOWNX_IMAGE_MAX_SIZE = {
+    'size': (800, 500),
+    'quality': 90
+}
+
 LOGIN_URL = '/users/login'
 
 BOOTSTRAP3 = {
     'include_jquery': True,
 }
 
+MARKDOWN_EDITOR_SKIN = 'simple'
+MARKDOWN_EXTENSIONS = ['extra']
