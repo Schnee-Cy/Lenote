@@ -1,5 +1,5 @@
 from django.urls import reverse
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, StreamingHttpResponse
 from django.shortcuts import render
 
 from django.contrib.auth.models import User
@@ -281,3 +281,21 @@ def diary_log(request, diary_id):
     diary_log = Diary.objects.get(id = diary_id).diary_log
     context = { 'diary_log': diary_log }
     return render(request, 'lenotes/diary_log.html', context)
+
+def readFile(filename,chunk_size=512):  
+    with open(filename,'rb') as f:  
+        while True:  
+            c = f.read(chunk_size)  
+            if c:  
+                yield c  
+            else:  
+                break  
+
+def file_download(request):
+    the_file_name = 'Lenotes.pdf'                   
+    filename = 'Lenotes.pdf'      
+    response = StreamingHttpResponse(readFile(filename))  
+    response['Content-Type'] = 'application/octet-stream'  
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(the_file_name)  
+    return response  
+  

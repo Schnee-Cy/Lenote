@@ -14,8 +14,8 @@ class UserInfo(models.Model):
     gender = models.CharField(max_length = 6, choices = GENDER_CHOICES, default = "Male")
     email = models.CharField(max_length = 40, default = "Undefined@example.com")
     intro = models.CharField(max_length = 200, default = "hello world")
-    unread_count = models.IntegerField(default=0)
     profile = models.ImageField(upload_to='user/img', default='user/img/default.jpg')
+    unread_count = models.IntegerField(default=0)
     def __str__(self):
         return self.name
 

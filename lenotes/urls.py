@@ -38,4 +38,6 @@ urlpatterns = [
     path('edit_diary_md/<int:diary_id>', views.edit_diary_md, name = 'edit_diary_md'),
 
     path('diary_log/<int:diary_id>', views.diary_log, name = 'diary_log'),
+
+    path('file_download', views.file_download, name = 'file_download'),
 ]
