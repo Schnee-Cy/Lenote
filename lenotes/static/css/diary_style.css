@@ -4,9 +4,24 @@ Primary style
 
 -------------------------------- */
 
-ol,
+li {
+    list-style: none;
+}
+
+ol {
+    list-style: none;
+}
+
 ul {
     list-style: none;
+}
+
+p {
+    font-family: "Fira Sans", sans-serif;
+}
+
+h2 {
+    font-family: "Fira Sans", sans-serif;
 }
 
 *,
@@ -21,7 +36,6 @@ html {
 
 body {
     font-size: 1.6rem;
-    font-family: "Fira Sans", sans-serif;
     color: #383838;
     background-color: #fff;
 }

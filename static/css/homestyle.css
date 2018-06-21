@@ -2,7 +2,6 @@ html,
 body {
     font-size: 100%;
     background: #fff;
-    font-family: 'Open Sans', sans-serif;
 }
 
 p,
@@ -24,10 +23,6 @@ ul,
 label {
     margin: 0;
     padding: 0;
-}
-
-body a:hover {
-    text-decoration: none;
 }
 
 .banner-body {
@@ -164,7 +159,7 @@ body a:hover {
     height: 100%;
 }
 
-.line_divide_group{
+.line_divide_group {
     background: #ddd;
     margin-top: 4px;
     display: inline-block;
@@ -174,7 +169,7 @@ body a:hover {
     vertical-align: middle;
 }
 
-.line_divide_user{
+.line_divide_user {
     background: #ddd;
     margin-top: 4px;
     display: inline-block;
@@ -184,77 +179,60 @@ body a:hover {
     vertical-align: middle;
 }
 
-.my_content{
-    overflow:hidden; 
-    text-overflow:ellipsis;
-    display:-webkit-box; 
-    -webkit-box-orient:vertical;
-    -webkit-line-clamp:3;
+.my_content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
     word-break: break-all;
     height: 75px;
     width: 250px
 }
 
 .email_info {
-    overflow:hidden; 
-    text-overflow:ellipsis;
-    display:-webkit-box; 
-    -webkit-box-orient:vertical;
-    -webkit-line-clamp:1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
     word-break: break-all;
     height: 25px;
-    width: 250px
+    width: 250px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .user_info {
-    overflow:hidden; 
-    text-overflow:ellipsis;
-    display:-webkit-box; 
-    -webkit-box-orient:vertical;
-    -webkit-line-clamp:2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     word-break: break-all;
     height: 50px;
-    width: 250px
+    width: 250px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .creat_group_button {
-    position:absolute;
-    left:0;
-    right:0;
-    margin:auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
     width: 150px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     color: #000000;
     padding: 10px 20px;
-    background: -moz-linear-gradient(
-        top,
-        #ffffff 0%,
-        #ffffff 25%,
-        #ffffff 50%,
-        #ffffff 75%,
-        #ffffff);
-    background: -webkit-gradient(
-        linear, left top, left bottom,
-        from(#ffffff),
-        color-stop(0.25, #ffffff),
-        color-stop(0.50, #ffffff),
-        color-stop(0.75, #ffffff),
-        to(#ffffff));
+    background: -moz-linear-gradient( top, #ffffff 0%, #ffffff 25%, #ffffff 50%, #ffffff 75%, #ffffff);
+    background: -webkit-gradient( linear, left top, left bottom, from(#ffffff), color-stop(0.25, #ffffff), color-stop(0.50, #ffffff), color-stop(0.75, #ffffff), to(#ffffff));
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
     border-radius: 6px;
     border: 1px solid #ffffff;
-    -moz-box-shadow:
-        0px 1px 3px rgba(000,000,000,0.5),
-        inset 0px -1px 0px rgba(255,255,255,0.7);
-    -webkit-box-shadow:
-        0px 1px 3px rgba(000,000,000,0.5),
-        inset 0px -1px 0px rgba(255,255,255,0.7);
-    box-shadow:
-        0px 1px 3px rgba(000,000,000,0.5),
-        inset 0px -1px 0px rgba(255,255,255,0.7);
-    text-shadow:
-        0px -1px 1px rgba(255,255,255,0.2),
-        0px 1px 0px rgba(255,255,255,0.3);
+    -moz-box-shadow: 0px 1px 3px rgba(000, 000, 000, 0.5), inset 0px -1px 0px rgba(255, 255, 255, 0.7);
+    -webkit-box-shadow: 0px 1px 3px rgba(000, 000, 000, 0.5), inset 0px -1px 0px rgba(255, 255, 255, 0.7);
+    box-shadow: 0px 1px 3px rgba(000, 000, 000, 0.5), inset 0px -1px 0px rgba(255, 255, 255, 0.7);
+    text-shadow: 0px -1px 1px rgba(255, 255, 255, 0.2), 0px 1px 0px rgba(255, 255, 255, 0.3);
+    font-family: 'Open Sans', sans-serif;
 }

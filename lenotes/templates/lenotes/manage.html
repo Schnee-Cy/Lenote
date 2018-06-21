@@ -34,11 +34,13 @@
             <tbody>
                 {% for info in memberInfos %}
                 <tr>
-                    {% ifequal group.owner info.user %}
+                    {% if group.owner == info.user %}
                     <td>{{ info.name }} (Group Owner)</td>
+                    {% elif request.user == info.user %}
+                    <td>{{ info.name }} (Yourself)</td>
                     {% else %}
                     <td>{{ info.name }}</td>
-                    {% endifequal %}
+                    {% endif %}
                     <td>{{ info.gender }}</td>
                     <td>{{ info.email }}</td>
                     <td>{{ info.intro }}</td>

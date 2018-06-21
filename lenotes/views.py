@@ -12,7 +12,7 @@ from lenotes.forms import GroupForm, DiaryForm, InvitationForm
 from users.views import update_userInfo_unread_count
 
 from datetime import datetime
-
+from PIL import Image
  
 def index(request):
     if request.user.is_authenticated:
@@ -32,12 +32,6 @@ def groups(request):
 @login_required
 def group(request, group_id):
     """群组主页"""
-   # get_group = Group.objects.get(id=group_id)
-   # diarys = get_group.diary_set.order_by('-date_added')
-   # if len(diarys)==0:
-    #    Diary.objects.create(group = get_group)
-    #context = {'group': group, 'diarys': diarys}
-   # return render(request, 'lenotes/group.html', context)
     year = datetime.now().year
     month = datetime.now().month
     return HttpResponseRedirect(reverse('lenotes:diary_month', args=[group_id, year, month, 1]))
@@ -48,28 +42,18 @@ def diary_month(request, group_id, year, month, styleSelect):
     get_group = Group.objects.get(id=group_id)
     tdiary = get_group.diary_set.order_by('-date_added')
     createJudge = False
-    editJudge = False
-    diaryid = 1
     if tdiary.count()==0:
         createJudge = True
     elif tdiary[0].date_added.year != datetime.now().year or tdiary[0].date_added.month != datetime.now().month\
         or tdiary[0].date_added.day != datetime.now().day:
         createJudge = True  
 
-    if tdiary.count()!=0:
-        diaryid = tdiary[0].id
-    
-    if not createJudge:   #说明已经创建了当天的日记
-        editJudge = True
     diarys = get_group.diary_set.filter(date_added__year=year, date_added__month = month)
     odiarys = diarys.order_by('date_added')    
-    lastMonth = 1
-    lastYear = 1
-    nextMonth = 1
-    nextYear = 1
+    lastMonth, lastYear, nextMonth, nextYear = 1, 1, 1, 1
     
     lastMonthJudge = True
-    if month==tdiary[len(tdiary)-1].date_added.month:
+    if tdiary.count() == 0 or month==tdiary[len(tdiary)-1].date_added.month:
         lastMonthJudge = False
     if month==1:
         lastMonth = 12
@@ -101,13 +85,34 @@ def diary_month(request, group_id, year, month, styleSelect):
         'nextMonthJudge': nextMonthJudge,
         'nextMonth': nextMonth,
         'nextYear': nextYear,
-        'editJudge': editJudge,
-        'diaryid': diaryid,
     }
     if styleSelect == 1:
         return render(request, 'lenotes/group_diary_md.html', context)
     elif styleSelect == 2:
         return render(request, 'lenotes/group_diary.html', context)
+
+# 压缩图片尺寸
+def compressImage(image):
+    tmp_image = Image.open(image)
+    width = tmp_image.width 
+    height = tmp_image.height
+    rate = 1.0 # 压缩率
+
+    # 根据图像大小设置压缩率
+    if width >= 3000 or height >= 3000:
+        rate = 0.15  
+    elif width >= 2000 or height >= 2000:
+        rate = 0.3
+    elif width >= 1000 or height >= 1000:
+        rate = 0.7
+    elif width >= 500 or height >= 500:
+        rate = 0.9
+
+    width = int(width * rate)   # 新的宽
+    height = int(height * rate) # 新的高
+
+    tmp_image.thumbnail((width, height), Image.ANTIALIAS) # 生成缩略图
+    tmp_image.save('media/group/img/' + str(image))
 
 @login_required
 def manage(request, group_id):
@@ -183,7 +188,7 @@ def new_group(request):
             new_group.save()
             return HttpResponseRedirect(reverse('users:home'))
     
-    context = {'form': form}
+    context = { 'form': form }
     return render(request, 'lenotes/new_group.html', context)
 
 @login_required
@@ -246,6 +251,7 @@ def edit_diary_md(request, diary_id):
     else:
         form = DiaryForm(instance=diary, data=request.POST)
         if form.is_valid():
+            diary.diary_log = (str(datetime.now()) + "  Editor: " + str(request.user) + "\r\n") + diary.diary_log
             form.save()
             return HttpResponseRedirect(reverse('lenotes:group', args=[group.id]))
     context = {
@@ -265,7 +271,13 @@ def del_diary(request, diary_id):
 
 
 @login_required
-def add_diary(request,group_id):
+def add_diary(request, group_id):
     get_group = Group.objects.get(id=group_id)
     Diary.objects.all().create(group = get_group)
     return HttpResponseRedirect(reverse('lenotes:group', args=[group_id]))
+
+@login_required
+def diary_log(request, diary_id):
+    diary_log = Diary.objects.get(id = diary_id).diary_log
+    context = { 'diary_log': diary_log }
+    return render(request, 'lenotes/diary_log.html', context)

@@ -36,4 +36,6 @@ urlpatterns = [
     path('edit_diary/<int:group_id>/<int:diary_id>', views.edit_diary, name = 'edit_diary'),
 
     path('edit_diary_md/<int:diary_id>', views.edit_diary_md, name = 'edit_diary_md'),
+
+    path('diary_log/<int:diary_id>', views.diary_log, name = 'diary_log'),
 ]
