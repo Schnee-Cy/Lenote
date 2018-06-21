@@ -43,13 +43,13 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                    <a href="{% url 'users:notice' %}" class="btn btn-default">Notice 
+                    <a href="{% url 'users:notice' %}" class="btn btn-default" style="margin-top: 7px">Notice 
                         {% ifnotequal user|getUnreadCount 0 %}
                         <span class="badge ">{{ user|getUnreadCount }}</span>
                         {% endifnotequal %}
                     </a>
                     <div class="btn-group">
-                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{user.username}}
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-top: 7px">{{user.username}}
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="userMenu">
@@ -62,8 +62,8 @@
                     </div>
                     {% else %}
                     <form class="form-inline ml-auto">
-                        <a href="{% url 'users:login' %}?next={{request.path}}" class="btn btn-default">Log In</a>
-                        <a href="{% url 'users:register' %}" class="btn btn-default">Register</a>
+                        <a href="{% url 'users:login' %}?next={{request.path}}" class="btn btn-default" style="margin-top: 7px">Log In</a>
+                        <a href="{% url 'users:register' %}" class="btn btn-default" style="margin-top: 7px">Register</a>
                     </form>
                     {% endif %}
                 </ul>
