@@ -134,7 +134,8 @@ def manage(request, group_id):
         group.intro = group_form.cleaned_data["intro"]
         myprofile = request.FILES.get('profile',None)
         if myprofile:
-            group.profile.delete()
+            if group.profile.name != 'group/img/default.jpg':
+                group.profile.delete()
             group.profile = myprofile
         group.save()
         return HttpResponseRedirect(reverse('lenotes:group', args=[group.id]))

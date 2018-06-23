@@ -30,4 +30,3 @@ class Message(models.Model):
     is_Read = models.BooleanField(default = False)
     def __str__(self):
         return self.text
-

@@ -109,7 +109,8 @@ def settings(request):
         info.intro = info_form.cleaned_data["intro"]
         myprofile = request.FILES.get('profile',None)
         if myprofile:
-            info.profile.delete()
+            if info.profile.name != 'user/img/default.jpg' :
+                info.profile.delete()
             info.profile = myprofile
         info.save()
         return HttpResponseRedirect(reverse('users:home'))
@@ -148,17 +149,15 @@ def notice(request):
 @login_required
 def send_message(request):
     """向某人发送信息"""
-    if request.method != 'POST':
-        form = MsgForm()
-    else:
-        form = MsgForm(request.POST)
-        if form.is_valid():
-            new_Message = form.save(commit=False)
-            new_Message.sender = request.user.username
-            new_Message.save()
-            return HttpResponseRedirect(reverse('users:home'))
-    context = {'form': form}
-    return render(request, 'users/send_message.html', context)
+    if request.method == 'POST':
+        try:
+            receiver_user = User.objects.get(username=request.POST['receiver_id'])
+        except ObjectDoesNotExist:
+            return render(request, 'lenotes/userIsNotExist.html')
+        content = request.POST['content']
+        Message.objects.create(sender=request.user.username, receiver=receiver_user,text=content, is_Read=False)
+        return HttpResponseRedirect(reverse('users:home'))
+    return render(request, 'users/send_message.html')
 
 @login_required
 def read_message(request, message_id):
