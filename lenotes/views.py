@@ -13,7 +13,58 @@ from users.views import update_userInfo_unread_count
 
 from datetime import datetime
 from PIL import Image
- 
+
+import json
+
+def check_user(request, group, flag): 
+    """
+        flag 0 检查是不是群主
+        flag 1 检查是不是群成员
+    """
+    if flag == 0 and request.user != group.owner:
+        raise Http404
+    elif flag == 1 and request.user not in group.members.all():
+        raise Http404
+
+
+@login_required
+def upload_ajax(request):
+    data = json.loads(request.body)
+    for key,value in data.items():
+        if key[0]=='t':
+            idx = int(key[3:])
+            tex = Textele.objects.get(id = idx)
+            tex.content = value['content']
+            s = value['x']
+            tex.x = int(s[:len(s)-2])
+            s = value['y']
+            tex.y = int(s[:len(s)-2])
+            tex.zindex = int(value['z'])
+            s = value['fontsize']
+            tex.fontsize = int(s[:len(s)-2])
+            tex.save()
+        elif key[0]=='p':
+            print(key)
+            print(value)
+            idx = int(key[3:])
+            print(idx)
+            pic = Imgele.objects.get(id = idx)
+            s = value['x']
+            pic.x = int(s[:len(s)-2])
+            print("pic.x" + str(pic.x))
+            s = value['y']
+            pic.y = int(s[:len(s)-2])
+            s = value['w']
+            pic.w = int(s[:len(s)-2])
+            s = value['h']
+            pic.h = int(s[:len(s)-2])
+            pic.zindex = int(value['z'])
+            pic.save()
+            print(pic.x)
+    return HttpResponseRedirect(reverse('users:home'))
+
+
+
 def index(request):
     if request.user.is_authenticated:
         update_userInfo_unread_count(request.user)
@@ -23,23 +74,16 @@ def about_us(request):
     return render(request, 'lenotes/about_us.html')
 
 @login_required
-def groups(request):
-    """用户的群组主页"""
-    groups = Group.objects.filter(owner=request.user).order_by('date_added')
-    context = {'groups': groups}
-    return render(request, 'lenotes/groups.html', context)
-
-@login_required
 def group(request, group_id):
     """群组主页"""
     year = datetime.now().year
     month = datetime.now().month
     return HttpResponseRedirect(reverse('lenotes:diary_month', args=[group_id, year, month, 1]))
 
-
 @login_required   
 def diary_month(request, group_id, year, month, styleSelect):
     get_group = Group.objects.get(id=group_id)
+    check_user(request, get_group, 1)
     tdiary = get_group.diary_set.order_by('-date_added')
     createJudge = False
     if tdiary.count()==0:
@@ -91,28 +135,28 @@ def diary_month(request, group_id, year, month, styleSelect):
     elif styleSelect == 2:
         return render(request, 'lenotes/group_diary.html', context)
 
-# 压缩图片尺寸
-def compressImage(image):
-    tmp_image = Image.open(image)
-    width = tmp_image.width 
-    height = tmp_image.height
-    rate = 1.0 # 压缩率
+# # 压缩图片尺寸
+# def compressImage(image):
+#     tmp_image = Image.open(image)
+#     width = tmp_image.width 
+#     height = tmp_image.height
+#     rate = 1.0 # 压缩率
 
-    # 根据图像大小设置压缩率
-    if width >= 3000 or height >= 3000:
-        rate = 0.15  
-    elif width >= 2000 or height >= 2000:
-        rate = 0.3
-    elif width >= 1000 or height >= 1000:
-        rate = 0.7
-    elif width >= 500 or height >= 500:
-        rate = 0.9
+#     # 根据图像大小设置压缩率
+#     if width >= 3000 or height >= 3000:
+#         rate = 0.15  
+#     elif width >= 2000 or height >= 2000:
+#         rate = 0.3
+#     elif width >= 1000 or height >= 1000:
+#         rate = 0.7
+#     elif width >= 500 or height >= 500:
+#         rate = 0.9
 
-    width = int(width * rate)   # 新的宽
-    height = int(height * rate) # 新的高
+#     width = int(width * rate)   # 新的宽
+#     height = int(height * rate) # 新的高
 
-    tmp_image.thumbnail((width, height), Image.ANTIALIAS) # 生成缩略图
-    tmp_image.save('media/group/img/' + str(image))
+#     tmp_image.thumbnail((width, height), Image.ANTIALIAS) # 生成缩略图
+#     tmp_image.save('media/group/img/' + str(image))
 
 @login_required
 def manage(request, group_id):
@@ -139,6 +183,8 @@ def manage(request, group_id):
             group.profile = myprofile
         group.save()
         return HttpResponseRedirect(reverse('lenotes:group', args=[group.id]))
+    
+    check_user(request, group, 1)
     members = group.members.all()
     memberInfos = []
     for member in members:
@@ -154,6 +200,7 @@ def manage(request, group_id):
 @login_required
 def del_member(request, group_id, info_id):
     group = Group.objects.get(id=group_id)
+    check_user(request, group, 0)
     info = UserInfo.objects.get(id=info_id)
     group.members.remove(info.user)
     msg = "You have been removed from group: " + group.name
@@ -169,9 +216,12 @@ def send_invite(request, group_id):
             context = {'group_id': group_id}
             return render(request, 'lenotes/userIsNotExist.html' , context)
         group = Group.objects.get(id = group_id)
+        check_user(request, group, 0)
         msg = request.user.username + " invite you to join Group: " + group.name 
         Invitation.objects.create(receiver=invite_user, message=msg, groupid=group_id, is_Read=False)
         return HttpResponseRedirect(reverse('lenotes:manage', args=[group_id]))
+    group = Group.objects.get(id = group_id)
+    check_user(request, group, 0)
     context = { 'group_id': group_id }
     return render(request, 'lenotes/send_invite.html', context)
 
@@ -196,6 +246,7 @@ def new_group(request):
 def del_group(request, group_id):
     """删除当前群组"""
     del_group = Group.objects.get(id=group_id)
+    check_user(request, del_group, 0)
     members = del_group.members.all()
     senderName = del_group.owner.username + "(Group Owner)"
     for member in members:
@@ -207,6 +258,7 @@ def del_group(request, group_id):
 @login_required
 def new_diary(request, group_id):
     group = Group.objects.get(id = group_id)
+    check_user(request, group, 1)
     if request.method != 'POST':
         form = DiaryForm()
     else:
@@ -227,6 +279,8 @@ def edit_diary(request, group_id, diary_id):
         if obj:
             new_img = Imgele.objects.create(img = obj, belong = diary)
             new_img.idname = "IMG" + str(new_img.id)
+            new_img.w = 100
+            new_img.h = 100
             new_img.save()
         tex = request.POST.get('newText', None)
         if tex:
@@ -234,6 +288,7 @@ def edit_diary(request, group_id, diary_id):
             new_text.idname = "TEXT" + str(new_text.id)
             new_text.save()
     group = Group.objects.get(id = group_id)
+    check_user(request, group, 1)
     diary = Diary.objects.get(id = diary_id)
 
     context = {
@@ -247,6 +302,7 @@ def edit_diary_md(request, diary_id):
     """编辑既有条目"""
     diary = Diary.objects.get(id=diary_id)
     group = diary.group
+    check_user(request, group, 1)
     if request.method != 'POST':
         form = DiaryForm(instance=diary)
     else:
@@ -273,13 +329,14 @@ def del_diary(request, diary_id):
 
 @login_required
 def add_diary(request, group_id):
-    get_group = Group.objects.get(id=group_id)
-    Diary.objects.all().create(group = get_group)
+    group = Group.objects.get(id=group_id)
+    check_user(request, group, 1)
+    Diary.objects.all().create(group=group)
     return HttpResponseRedirect(reverse('lenotes:group', args=[group_id]))
 
 @login_required
 def diary_log(request, diary_id):
-    diary_log = Diary.objects.get(id = diary_id).diary_log
+    diary_log = Diary.objects.get(id=diary_id).diary_log
     context = { 'diary_log': diary_log }
     return render(request, 'lenotes/diary_log.html', context)
 

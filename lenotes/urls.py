@@ -9,7 +9,7 @@ urlpatterns = [
 
     path('about_us/', views.about_us, name = 'about_us'),
     
-    path('group/', views.groups, name = 'groups'),
+    #path('group/', views.groups, name = 'groups'),
 
     path('group/<int:group_id>', views.group, name = 'group'),
 
@@ -40,4 +40,7 @@ urlpatterns = [
     path('diary_log/<int:diary_id>', views.diary_log, name = 'diary_log'),
 
     path('file_download', views.file_download, name = 'file_download'),
+
+    path('upload_ajax/', views.upload_ajax, name='upload_ajax'),
+
 ]

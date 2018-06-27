@@ -3,19 +3,36 @@
 {% endblock header %} {% block content %}
 <p>
     {{group.intro}}
+    </br>
+    </br>
     <ul class="nav navbar-nav navbar-right">
         <a class="btn btn-default" href="{% url 'lenotes:diary_month' group.id nowYear nowMonth 1 %}" role="button">Markdown style</a>
+        <!-- <a class="btn btn-default" href="#" role="button" title="还没有做完哦，以后更新~" disabled>Free style</a> -->
+        <!--以后写完free style删除这一行用上一行-->
         <a class="btn btn-default" href="{% url 'lenotes:manage' group.id %}" role="button">Manage</a>
     </ul>
 </p>
 <li>
     {% if lastMonthJudge %}
-    <a href="{% url 'lenotes:diary_month' group.id lastYear lastMonth 2 %}" class="btn btn-default">Last month</a> {% endif %} {% if nextMonthJudge %}
-    <a href="{% url 'lenotes:diary_month' group.id nextYear nextMonth 2 %}" class="btn btn-default">Next month</a> {% endif %} {% if editJudge %}
-    <a href="{% url 'lenotes:edit_diary' group.id diaryid %}" class="btn btn-default">edit today</a> {% endif %} {% if createJudge %}
+    <a href="{% url 'lenotes:diary_month' group.id lastYear lastMonth 1 %}" class="btn btn-default">Last month</a> {% endif %} {% if nextMonthJudge %}
+    <a href="{% url 'lenotes:diary_month' group.id nextYear nextMonth 1 %}" class="btn btn-default">Next month</a> {% endif %} {% if createJudge %}
     <a href="{% url 'lenotes:new_diary' group.id %}" class="btn btn-default">create new diary</a> {% endif %}
 </li>
 
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700,900|Fira+Sans:400,400italic' rel='stylesheet' type='text/css'> {% load static %}
+
+<link rel="stylesheet" href="{% static 'css/diary_style.css' %}">
+<!-- Resource style -->
+<script src="{% static 'js/modernizr.js' %}"></script>
+<!-- Modernizr -->
+<script src="{% static 'js/jquery-2.1.4.js' %}"></script>
+<script src="{% static 'js/jquery.mobile.custom.min.js' %}"></script>
+<script src="{% static 'js/diary_main.js' %}"></script>
+<!-- Resource jQuery -->
 
 <div>
     <section class="cd-horizontal-timeline">
@@ -53,15 +70,37 @@
 
                 {% for diary in odiarys %} {% if forloop.last %}
                 <li data-date="{{diary.date_added|date:'d/m/Y'}}" class="selected">
-                    <div style="height: 300px;">
-                        {{diary.content}}
-                    </div>
-                </li>
+                <div id="MainContent" style="height: 600px; background-color:gainsboro; ">
+                    {% for tex in diary.textele_set.all %}
+                    <div id="tex{{tex.id}}" style="position: absolute; left: {{tex.x}}px;  top: {{tex.y}}px; z-index:{{tex.zindex}};
+                    font-size: {{tex.fontsize}}px; font-color: {{tex.fontcolor}}; 
+                    ">{{tex.content}}</div>
+                    {% endfor %}
+
+                    {% for pic in diary.imgele_set.all %}
+                    <div id="pic{{pic.id}}" style="position: absolute; left: {{pic.x}}px;  
+                    width: {{pic.w}}px; height: {{pic.h}}px; z-index: {{pic.zindex}};
+                    top: {{pic.y}}px;"><img src="/media/{{pic.img}}" style="width: 100%; height:100%; " alt=""></div>
+                    {% endfor %}
+                </div>
+                    <a href="{% url 'lenotes:edit_diary' group.id diary.id %}" class="btn btn-default">Edit today</a>
+                </li> 
                 {% else %}
                 <li data-date="{{diary.date_added|date:'d/m/Y'}}">
-                    <div style="height: 600px; width: 720px;">
-                        {{diary.content}}
-                    </div>
+                <div id="MainContent" style="height: 600px; background-color:gainsboro; ">
+                    {% for tex in diary.textele_set.all %}
+                    <div id="tex{{tex.id}}" style="position: absolute; left: {{tex.x}}px;  top: {{tex.y}}px; z-index:{{tex.zindex}};
+                    font-size: {{tex.fontsize}}px; font-color: {{tex.fontcolor}}; 
+                    ">{{tex.content}}</div>
+                    {% endfor %}
+
+                    {% for pic in diary.imgele_set.all %}
+                    <div id="pic{{pic.id}}" style="position: absolute; left: {{pic.x}}px;  
+                    width: {{pic.w}}px; height: {{pic.h}}px; z-index: {{pic.zindex}};
+                    top: {{pic.y}}px;"><img src="/media/{{pic.img}}" style="width: 100%; height:100%; " alt=""></div>
+                    {% endfor %}
+                </div>
+                    <a href="{% url 'lenotes:edit_diary' group.id diary.id %}" class="btn btn-default">Edit today</a>
                 </li>
                 {% endif %} {% empty %}
                 <li class="selected">
@@ -82,22 +121,4 @@
     <a href="{% url 'lenotes:new_diary' group.id %}" class="btn btn-default">create new diary</a>
 </p>
 </section>
-
-
-{% load static %}
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700,900|Fira+Sans:400,400italic' rel='stylesheet' type='text/css'>
-
-<link rel="stylesheet" href="{% static 'css/diary_style.css' %}">
-<!-- Resource style -->
-<script src="{% static 'js/modernizr.js' %}"></script>
-<!-- Modernizr -->
-<script src="{% static 'js/jquery-2.1.4.js' %}"></script>
-<script src="{% static 'js/jquery.mobile.custom.min.js' %}"></script>
-<script src="{% static 'js/diary_main.js' %}"></script>
-<!-- Resource jQuery -->
-
-
 {% endif %} {% endblock content %}
