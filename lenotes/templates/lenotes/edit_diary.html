@@ -54,8 +54,11 @@
     <label for="">y坐标</label>
     <input type="text" name="yAxis" id="texY">
     <br> -->
-    <!-- <label for="">字体颜色</label>
-    <input type="text" name="fontColor" id="texFontcolor">
+    <label for="">字体颜色</label>
+    <input type="button" value="红色" onclick="Fontcolor(1)">
+    <input type="button" value="黑色" onclick="Fontcolor(2)">
+    <input type="button" value="白色" onclick="Fontcolor(3)">
+    <input type="button" value="绿色" onclick="Fontcolor(4)">
     <br> -->
     <label for="">字体大小</label>
     <!-- <input type="text" name="fontSize" id="texFontsize"> -->
@@ -67,7 +70,7 @@
     <input type="button" value="+" onclick="addzindex()">
     <input type="button" value="-" onclick="subzindex()">
     <br>
-    <input type="button" value="保存" onclick="TexUpload()">
+    <input type="button" value="删除" onclick="delete_ele()">
 </div>
 
 
@@ -92,7 +95,7 @@
     <input type="button" value="+" onclick="addzindex()">
     <input type="button" value="-" onclick="subzindex()">
     <br>
-    <input type="button" value="保存" onclick="PicUpload()">
+    <input type="button" value="删除" onclick="delete_ele()">
 </div> 
 
 
@@ -125,7 +128,7 @@
             <div id="MainContent" style="height: 600px; background-color: gainsboro; " >
                 {% for tex in diary.textele_set.all %}
                     <div id="tex{{tex.id}}" style="position: absolute; left: {{tex.x}}px;  top: {{tex.y}}px; z-index:{{tex.zindex}};
-                    font-size: {{tex.fontsize}}px; font-color: {{tex.fontcolor}}; 
+                    font-size: {{tex.fontsize}}px; color: {{tex.fontcolor}}; 
                     " onmousedown="texmove(event,this)" onmouseup="reset()">{{tex.content}}</div>
                 {% endfor %}
 

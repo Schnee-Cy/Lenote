@@ -43,4 +43,6 @@ urlpatterns = [
 
     path('upload_ajax/', views.upload_ajax, name='upload_ajax'),
 
+    path('delete_ajax/', views.delete_ajax, name='delete_ajax'),
+
 ]

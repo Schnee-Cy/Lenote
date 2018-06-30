@@ -73,7 +73,7 @@
                 <div id="MainContent" style="height: 600px; background-color:gainsboro; ">
                     {% for tex in diary.textele_set.all %}
                     <div id="tex{{tex.id}}" style="position: absolute; left: {{tex.x}}px;  top: {{tex.y}}px; z-index:{{tex.zindex}};
-                    font-size: {{tex.fontsize}}px; font-color: {{tex.fontcolor}}; 
+                    font-size: {{tex.fontsize}}px; color: {{tex.fontcolor}}; 
                     ">{{tex.content}}</div>
                     {% endfor %}
 
@@ -90,7 +90,7 @@
                 <div id="MainContent" style="height: 600px; background-color:gainsboro; ">
                     {% for tex in diary.textele_set.all %}
                     <div id="tex{{tex.id}}" style="position: absolute; left: {{tex.x}}px;  top: {{tex.y}}px; z-index:{{tex.zindex}};
-                    font-size: {{tex.fontsize}}px; font-color: {{tex.fontcolor}}; 
+                    font-size: {{tex.fontsize}}px; color: {{tex.fontcolor}}; 
                     ">{{tex.content}}</div>
                     {% endfor %}
 

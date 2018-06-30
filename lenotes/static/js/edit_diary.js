@@ -9,9 +9,24 @@ $(document).ready(function(){
     $("#picform").hide();
 }); 
 
+
+function delete_ele(){
+    $.ajax({
+        url:'/delete_ajax/',
+        type:'POST',
+        data: {"del_id":name},
+        //  processData: false,  // tell jquery not to process the data
+        //  contentType: false, // tell jquery not to set contentType
+        success: function(callback) {
+           
+        }
+    });
+    $("#"+name).remove();
+}
+
+//当文本内容改变时触发该函数，实时更新内容
 function changeContent(minput){
     oDiv = $("#"+name);
-    console.log("lala");
     oDiv.html(minput.value);
   //  console.log(minput.value);
 }
@@ -23,14 +38,11 @@ function texmove(ev,mdiv)
     $("#texId").val(mdiv.id);
     $("#texform").show();
     $("#picform").hide();
-    console.log(mdiv.id);
     oDiv = $("#"+name);
     $("#texContent").val(oDiv.html())
     var oEvent = ev; 
     disX =  oDiv.position().left;
     disY =  oDiv.position().top;
-    console.log("disX"+disX);
-    console.log("disY"+disY);
     initialX = oEvent.clientX;
     initialY = oEvent.clientY;
     document.onmousemove=function (ev)
@@ -38,8 +50,6 @@ function texmove(ev,mdiv)
         oEvent = ev;
         //console.log(oEvent.clientX -disX);
       //  console.log()
-        console.log(oEvent.clientX-initialX);
-        console.log(oEvent.clientY-initialY);
         oDiv.css("left",disX+oEvent.clientX-initialX +"px");
         oDiv.css("top",disY+oEvent.clientY-initialY+"px");
     }
@@ -48,6 +58,18 @@ function texmove(ev,mdiv)
         
     } */
     
+}
+
+function Fontcolor(color){
+    tex = $("#"+name);
+    var colorstr;
+    switch(color){
+        case 1: colorstr="red"; break;
+        case 2: colorstr="black"; break;
+        case 3: colorstr="white"; break;
+        case 4: colorstr="green"; break;
+    }
+    tex.css("color",colorstr);
 }
 
 function picWChange(minput){
@@ -103,7 +125,6 @@ function picmove(ev,mdiv)
     //console.log(ev['path'][0].id);
     name = mdiv.id;
     $("#texId").val(mdiv.id);
-    console.log(mdiv.id);
     $("#picform").show();
     $("#texform").hide();
     oDiv = $("#"+name);
@@ -192,9 +213,6 @@ function PicUpload(){
     var picH = $("#picHeight").val();
     var picW = $("#picWidth").val();
     //var picZ = $("#picZ").val();
-    console.log(picId);
-    console.log(picH);
-    console.log(picW);
     // if(picX.length != 0)
     //     pic.css("left",picX+"px");
     // if(picY.length != 0)
@@ -227,9 +245,10 @@ function collect(){
             newitem["x"] = ele.css("left");
             newitem["y"] = ele.css("top");
             newitem["content"] = ele.html();
-            newitem["fontcolor"] = ele.css("color");
+            newitem["fontcolor"] = document.getElementById(tid).style.color;
             newitem["fontsize"] = ele.css("font-size");
             newitem["z"] = ele.css("z-index");
+            //console.log(document.getElementById(tid).style.color);
         }
         else if(tid[0] == 'p'){
             newitem["x"] = ele.css("left");
@@ -240,21 +259,12 @@ function collect(){
         }
         ret[tid] = newitem;
     }
-    console.log(ret);
     return ret;
     //console.log(chi);
 }
 
 function AllUpload(){
-   /* $.ajax({
 
-    })*/
-   // var form_data = new FormData();
-   // var file_info =$( '#file_upload')[0].files[0];
-    //form_data.append('file',file_info);
-            //if(file_info==undefined)暂且不许要判断是否有附件
-                //alert('你没有选择任何文件');
-                //return false
 
     mydata = collect();
     $.ajax({

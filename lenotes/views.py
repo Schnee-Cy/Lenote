@@ -1,5 +1,5 @@
 from django.urls import reverse
-from django.http import HttpResponseRedirect, Http404, StreamingHttpResponse
+from django.http import HttpResponseRedirect, Http404, StreamingHttpResponse, HttpResponse
 from django.shortcuts import render
 
 from django.contrib.auth.models import User
@@ -28,40 +28,48 @@ def check_user(request, group, flag):
 
 
 @login_required
+def delete_ajax(request):
+    del_id = request.POST.get("del_id")
+    if(del_id[0]=='t'):
+        de = Textele.objects.get(id= int(del_id[3:]))
+        de.delete()
+    elif(del_id[0]=='p'):
+        de = Imgele.objects.get(id= int(del_id[3:]))
+        de.delete()
+    return HttpResponse('')
+
+
+@login_required
 def upload_ajax(request):
-    data = json.loads(request.body)
+    data = json.loads(request.body.decode('utf-8'))
     for key,value in data.items():
         if key[0]=='t':
             idx = int(key[3:])
             tex = Textele.objects.get(id = idx)
             tex.content = value['content']
             s = value['x']
-            tex.x = int(s[:len(s)-2])
+            tex.x = float(s[:len(s)-2])
             s = value['y']
-            tex.y = int(s[:len(s)-2])
+            tex.y = float(s[:len(s)-2])
             tex.zindex = int(value['z'])
             s = value['fontsize']
             tex.fontsize = int(s[:len(s)-2])
+            tex.fontcolor = value['fontcolor']
             tex.save()
         elif key[0]=='p':
-            print(key)
-            print(value)
             idx = int(key[3:])
-            print(idx)
             pic = Imgele.objects.get(id = idx)
             s = value['x']
-            pic.x = int(s[:len(s)-2])
-            print("pic.x" + str(pic.x))
+            pic.x = float(s[:len(s)-2])
             s = value['y']
-            pic.y = int(s[:len(s)-2])
+            pic.y = float(s[:len(s)-2])
             s = value['w']
-            pic.w = int(s[:len(s)-2])
+            pic.w = float(s[:len(s)-2])
             s = value['h']
-            pic.h = int(s[:len(s)-2])
+            pic.h = float(s[:len(s)-2])
             pic.zindex = int(value['z'])
             pic.save()
-            print(pic.x)
-    return HttpResponseRedirect(reverse('users:home'))
+    return HttpResponse('')
 
 
 

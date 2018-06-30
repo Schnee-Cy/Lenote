@@ -41,20 +41,20 @@ class Imgele(models.Model):
     idname = models.CharField(max_length = 40)
     img = models.ImageField(upload_to='diary/img')
     zindex = models.IntegerField(default = 999)
-    w = models.IntegerField(default = 30)
-    h = models.IntegerField(default = 30)
-    x = models.IntegerField(default = 0)
-    y = models.IntegerField(default = 0)
+    w = models.FloatField(default = 300)
+    h = models.FloatField(default = 300)
+    x = models.FloatField(default = 0)
+    y = models.FloatField(default = 0)
 
 
 class Textele(models.Model):
     belong = models.ForeignKey(Diary, on_delete=models.CASCADE)
     idname = models.CharField(max_length = 40)
     content = models.TextField(default='Input something please')
-    x = models.IntegerField(default = 0) 
-    y = models.IntegerField(default = 0)
+    x = models.FloatField(default = 0) 
+    y = models.FloatField(default = 0)
     fontsize = models.IntegerField(default = 40)
-    fontcolor = models.CharField(max_length = 20, default='red')
+    fontcolor = models.CharField(max_length = 20, default='black')
     zindex = models.IntegerField(default = 999)
 
 
