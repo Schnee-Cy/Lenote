@@ -355,13 +355,26 @@ def readFile(filename,chunk_size=512):
             if c:  
                 yield c  
             else:  
-                break  
+                break
 
+#本地测试使用这一个文件下载
 def file_download(request):
-    the_file_name = 'Lenotes.pdf'                   
-    filename = 'Lenotes.pdf'      
+    the_file_name = 'Readme.md'                   
+    filename = 'Readme.md'      
     response = StreamingHttpResponse(readFile(filename))  
     response['Content-Type'] = 'application/octet-stream'  
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(the_file_name)  
     return response  
-  
+
+#服务器上使用这一个文件下载
+
+# def file_download(request):
+#     filename = '/home/Lenote/Readme.md'
+#     newfilename = 'Readme.md'
+#     f =open(filename, encoding="ISO-8859-1")
+#     data = f.read()
+#     f.close()
+#     response = HttpResponse(data, content_type='application/octet-stream') 
+#     response['Content-Disposition'] = 'attachment; filename=%s' % newfilename
+#     return response
+
