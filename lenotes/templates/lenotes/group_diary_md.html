@@ -53,6 +53,7 @@
                 <li data-date="{{diary.date_added|date:'d/m/Y'}}" class="selected">
                     <div style="width: 1200px; font-family:'Fira Sans'">
                         {{diary.content|custom_markdown}}
+                        <br/>
                         <a href="{% url 'lenotes:edit_diary_md' diary.id %}" class="btn btn-default">Edit today</a>
                         <a href="{% url 'lenotes:diary_log' diary.id %}" class="btn btn-default">Diary log</a>
                     </div>
@@ -61,6 +62,7 @@
                 <li data-date="{{diary.date_added|date:'d/m/Y'}}">
                     <div style="width: 1200px; font-family:'Fira Sans'">
                         {{diary.content|custom_markdown}}
+                        <br/>
                         <a href="{% url 'lenotes:edit_diary_md' diary.id %}" class="btn btn-default">Edit today</a>
                         <a href="{% url 'lenotes:diary_log' diary.id %}" class="btn btn-default">Diary log</a>
                     </div>

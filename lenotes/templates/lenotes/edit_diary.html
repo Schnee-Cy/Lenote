@@ -1,6 +1,8 @@
 {% extends 'lenotes/base.html' %} {% block header %}
 <h3><a href="{% url 'lenotes:group' group.id %}">{{ group }}</a></h3>
 {% endblock header %} {% block content %}
+
+
 <p>
     {{group.intro}}
     <ul class="nav navbar-nav navbar-right">
@@ -29,79 +31,16 @@
 
 <form enctype="multipart/form-data" action="#" method="post">
     {% csrf_token %}
-    <input type="file" name="Imgfield">  </input>
-    <input type="submit" value="创建图片">   </input>
+    <input class = "btn btn-default" type="file" name="Imgfield">  </input>
+    <input class = "btn btn-default" type="submit" value="创建图片">   </input>
 </form>
 
 <form enctype="multipart/form-data" action="#" method="post">
     {% csrf_token %}
     <input type="text" name="newText">  </input>
-    <input type="submit" value="创建文本">   </input>
+    <input class = "btn btn-default" type="submit" value="创建文本">   </input>
 </form>
 <br>
-<br>
-
-<div id="texform" style=" border:2px solid rgb(0, 47, 255);">
-    <!-- <label for="">选中文本id</label>
-    <input type="text" name="id" id="texId"> -->
-    <br>
-    <label for="">文本内容</label>
-    <input type="text" name="content" id="texContent" oninput="changeContent(this)">
-    <br>
-    <!-- <label for="">x坐标</label>
-    <input type="text" name="xAxis" id="texX">
-    <br>
-    <label for="">y坐标</label>
-    <input type="text" name="yAxis" id="texY">
-    <br> -->
-    <label for="">字体颜色</label>
-    <input type="button" value="红色" onclick="Fontcolor(1)">
-    <input type="button" value="黑色" onclick="Fontcolor(2)">
-    <input type="button" value="白色" onclick="Fontcolor(3)">
-    <input type="button" value="绿色" onclick="Fontcolor(4)">
-    <br> -->
-    <label for="">字体大小</label>
-    <!-- <input type="text" name="fontSize" id="texFontsize"> -->
-    <input type="button" value="+" onclick="addFontsize()">
-    <input type="button" value="-" onclick="subFontsize()">
-    <br>
-    <label for="">层次高度Z</label>
-    <!-- <input type="text" name="zAxis" id="texZ"> -->
-    <input type="button" value="+" onclick="addzindex()">
-    <input type="button" value="-" onclick="subzindex()">
-    <br>
-    <input type="button" value="删除" onclick="delete_ele()">
-</div>
-
-
-<div id="picform" style=" border:2px solid rgb(24, 206, 197);">
-    <!-- <label for="">选中图片id</label>
-    <input type="text" name="picid" id="picId">  -->
-    <br>
-    <!-- <label for="">x坐标</label>
-    <input type="text" name="xAxis" id="picX"> -->
-    <br>
-    <!-- <label for="">y坐标</label>
-    <input type="text" name="yAxis" id="picY">
-    <br> -->
-    <label for="">长</label>
-    <input type="text" name="height" id="picHeight" oninput="picHChange(this)">
-    <br>
-    <label for="">宽</label>
-    <input type="text" name="width" id="picWidth" oninput="picWChange(this)">
-    <br>
-    <label for="">层次高度Z</label>
-    <!-- <input type="text" name="piczAxis" id="picZ"> -->
-    <input type="button" value="+" onclick="addzindex()">
-    <input type="button" value="-" onclick="subzindex()">
-    <br>
-    <input type="button" value="删除" onclick="delete_ele()">
-</div> 
-
-
-
-<input type="button" value="上传" onclick="AllUpload()">
-
 
 <div>
 <section class="cd-horizontal-timeline">
@@ -122,10 +61,69 @@
 		</ul> <!-- .cd-timeline-navigation -->
 	</div> <!-- .timeline -->
 
-	<div class="events-content">
+	<div class="events-content my_content">
+        <div id="texform" style=" border:2px solid rgb(250, 250, 250); border-radius:10px; float: left; margin: 0 0 0 -170px; width: 200px;">
+            <!-- <label for="">选中文本id</label>
+            <input type="text" name="id" id="texId"> -->
+            <br>
+            <label for="">文本内容</label>
+            <input type="text" name="content" id="texContent" oninput="changeContent(this)">
+            <br>
+            <!-- <label for="">x坐标</label>
+            <input type="text" name="xAxis" id="texX">
+            <br>
+            <label for="">y坐标</label>
+            <input type="text" name="yAxis" id="texY">
+            <br> -->
+            <label for="">字体颜色</label>
+            <input class = "btn btn-default" type="button" value="红色" onclick="Fontcolor(1)">
+            <input class = "btn btn-default" type="button" value="黑色" onclick="Fontcolor(2)">
+            <input class = "btn btn-default" type="button" value="白色" onclick="Fontcolor(3)">
+            <input class = "btn btn-default" type="button" value="绿色" onclick="Fontcolor(4)">
+            <br> -->
+            <label for="">字体大小</label>
+            <!-- <input type="text" name="fontSize" id="texFontsize"> -->
+            <input class = "btn btn-default" type="button" value="+" onclick="addFontsize()">
+            <input class = "btn btn-default" type="button" value="-" onclick="subFontsize()">
+            <br>
+            <label for="">层次高度Z</label>
+            <!-- <input type="text" name="zAxis" id="texZ"> -->
+            <input class = "btn btn-default" type="button" value="+" onclick="addzindex()">
+            <input class = "btn btn-default" type="button" value="-" onclick="subzindex()">
+            <br>
+            <input class = "btn btn-default" type="button" value="删除" onclick="delete_ele()">
+            <input class = "btn btn-default" type="button" value="上传" onclick="AllUpload()">
+        </div>
+
+
+        <div id="picform" style=" border:2px solid rgb(250, 250, 250); border-radius:10px; float: left; margin: 0 0 0 -170px; width: 200px;">
+            <!-- <label for="">选中图片id</label>
+            <input type="text" name="picid" id="picId">  -->
+            <br>
+            <!-- <label for="">x坐标</label>
+            <input type="text" name="xAxis" id="picX"> -->
+            <br>
+            <!-- <label for="">y坐标</label>
+            <input type="text" name="yAxis" id="picY">
+            <br> -->
+            <label for="">长</label>
+            <input type="text" name="height" id="picHeight" oninput="picHChange(this)">
+            <br>
+            <label for="">宽</label>
+            <input type="text" name="width" id="picWidth" oninput="picWChange(this)">
+            <br>
+            <label for="">层次高度Z</label>
+            <!-- <input type="text" name="piczAxis" id="picZ"> -->
+            <input class = "btn btn-default" type="button" value="+" onclick="addzindex()">
+            <input class = "btn btn-default" type="button" value="-" onclick="subzindex()">
+            <br>
+            <input class = "btn btn-default" type="button" value="删除" onclick="delete_ele()">
+            <input class = "btn btn-default" type="button" value="上传" onclick="AllUpload()">
+        </div>
+        
 		<ol>
             <li data-date="{{diary.date_added|date:'d/m/Y'}}" class="selected">
-            <div id="MainContent" style="height: 600px; background-color: gainsboro; " >
+            <div id="MainContent" style="height: 600px; border:6px outset; border-color:yellowgreen" >
                 {% for tex in diary.textele_set.all %}
                     <div id="tex{{tex.id}}" style="position: absolute; left: {{tex.x}}px;  top: {{tex.y}}px; z-index:{{tex.zindex}};
                     font-size: {{tex.fontsize}}px; color: {{tex.fontcolor}}; 

@@ -283,7 +283,7 @@ Main Components
     -ms-transform: translateX(-100%);
     -o-transform: translateX(-100%);
     transform: translateX(-100%);
-    padding: 0 5%;
+    padding: 0;
     opacity: 0;
     -webkit-animation-duration: 0.4s;
     -moz-animation-duration: 0.4s;
@@ -327,8 +327,8 @@ Main Components
 }
 
 .cd-horizontal-timeline .events-content li>* {
-    max-width: 1000px;
-    margin: 0 auto;
+    max-width: 1060px;
+    margin: 0 ;
 }
 
 .cd-horizontal-timeline .events-content em {
@@ -440,4 +440,28 @@ Main Components
         -o-transform: translateX(0%);
         transform: translateX(0%);
     }
+}
+
+.cd-horizontal-timeline .my_content {
+    overflow: visible;
+}
+
+.my_button {
+    left: 0;
+    right: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #000000;
+    padding: 10px 20px;
+    background: -moz-linear-gradient( top, #ffffff 0%, #ffffff 25%, #ffffff 50%, #ffffff 75%, #ffffff);
+    background: -webkit-gradient( linear, left top, left bottom, from(#ffffff), color-stop(0.25, #ffffff), color-stop(0.50, #ffffff), color-stop(0.75, #ffffff), to(#ffffff));
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px solid #ffffff;
+    -moz-box-shadow: 0px 1px 3px rgba(000, 000, 000, 0.5), inset 0px -1px 0px rgba(255, 255, 255, 0.7);
+    -webkit-box-shadow: 0px 1px 3px rgba(000, 000, 000, 0.5), inset 0px -1px 0px rgba(255, 255, 255, 0.7);
+    box-shadow: 0px 1px 3px rgba(000, 000, 000, 0.5), inset 0px -1px 0px rgba(255, 255, 255, 0.7);
+    text-shadow: 0px -1px 1px rgba(255, 255, 255, 0.2), 0px 1px 0px rgba(255, 255, 255, 0.3);
+    font-family: 'Open Sans', sans-serif;
 }
