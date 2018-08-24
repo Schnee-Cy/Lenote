@@ -283,7 +283,7 @@ Main Components
     -ms-transform: translateX(-100%);
     -o-transform: translateX(-100%);
     transform: translateX(-100%);
-    padding: 0 5%;
+    padding: 0;
     opacity: 0;
     -webkit-animation-duration: 0.4s;
     -moz-animation-duration: 0.4s;
@@ -327,8 +327,8 @@ Main Components
 }
 
 .cd-horizontal-timeline .events-content li>* {
-    max-width: 1000px;
-    margin: 0 auto;
+    max-width: 1060px;
+    margin: 0 ;
 }
 
 .cd-horizontal-timeline .events-content em {

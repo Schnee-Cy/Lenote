@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     #my app
     'lenotes',
     'users',
-    
+    'text_embed',
 ]
 
 MIDDLEWARE = [

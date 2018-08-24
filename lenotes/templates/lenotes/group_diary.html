@@ -14,8 +14,8 @@
 </p>
 <li>
     {% if lastMonthJudge %}
-    <a href="{% url 'lenotes:diary_month' group.id lastYear lastMonth 2 %}" class="btn btn-default">Last month</a> {% endif %} {% if nextMonthJudge %}
-    <a href="{% url 'lenotes:diary_month' group.id nextYear nextMonth 2 %}" class="btn btn-default">Next month</a> {% endif %} {% if createJudge %}
+    <a href="{% url 'lenotes:diary_month' group.id lastYear lastMonth 1 %}" class="btn btn-default">Last month</a> {% endif %} {% if nextMonthJudge %}
+    <a href="{% url 'lenotes:diary_month' group.id nextYear nextMonth 1 %}" class="btn btn-default">Next month</a> {% endif %} {% if createJudge %}
     <a href="{% url 'lenotes:new_diary' group.id %}" class="btn btn-default">create new diary</a> {% endif %}
 </li>
 
@@ -70,33 +70,37 @@
 
                 {% for diary in odiarys %} {% if forloop.last %}
                 <li data-date="{{diary.date_added|date:'d/m/Y'}}" class="selected">
-                    <div id="MainContent" style="height: 600px; border:6px outset; border-color:yellowgreen">
-                        {% for tex in diary.textele_set.all %}
-                        <div id="tex{{tex.id}}" style="position: absolute; left: {{tex.x}}px;  top: {{tex.y}}px; z-index:{{tex.zindex}};
+                <div id="MainContent" style="height: 600px; border:6px outset; border-color:yellowgreen">
+                    {% for tex in diary.textele_set.all %}
+                    <div id="tex{{tex.id}}" style="position: absolute; left: {{tex.x}}px;  top: {{tex.y}}px; z-index:{{tex.zindex}};
                     font-size: {{tex.fontsize}}px; color: {{tex.fontcolor}}; 
                     ">{{tex.content}}</div>
-                        {% endfor %} {% for pic in diary.imgele_set.all %}
-                        <div id="pic{{pic.id}}" style="position: absolute; left: {{pic.x}}px;  
+                    {% endfor %}
+
+                    {% for pic in diary.imgele_set.all %}
+                    <div id="pic{{pic.id}}" style="position: absolute; left: {{pic.x}}px;  
                     width: {{pic.w}}px; height: {{pic.h}}px; z-index: {{pic.zindex}};
                     top: {{pic.y}}px;"><img src="/media/{{pic.img}}" style="width: 100%; height:100%; " alt=""></div>
-                        {% endfor %}
-                    </div>
+                    {% endfor %}
+                </div>
                     <br/>
                     <a href="{% url 'lenotes:edit_diary' group.id diary.id %}" class="btn btn-default">Edit today</a>
-                </li>
+                </li> 
                 {% else %}
                 <li data-date="{{diary.date_added|date:'d/m/Y'}}">
-                    <div id="MainContent" style="height: 600px; border:6px outset; border-color:yellowgreen">
-                        {% for tex in diary.textele_set.all %}
-                        <div id="tex{{tex.id}}" style="position: absolute; left: {{tex.x}}px;  top: {{tex.y}}px; z-index:{{tex.zindex}};
+                <div id="MainContent" style="height: 600px; border:6px outset; border-color:yellowgreen">
+                    {% for tex in diary.textele_set.all %}
+                    <div id="tex{{tex.id}}" style="position: absolute; left: {{tex.x}}px;  top: {{tex.y}}px; z-index:{{tex.zindex}};
                     font-size: {{tex.fontsize}}px; color: {{tex.fontcolor}}; 
                     ">{{tex.content}}</div>
-                        {% endfor %} {% for pic in diary.imgele_set.all %}
-                        <div id="pic{{pic.id}}" style="position: absolute; left: {{pic.x}}px;  
+                    {% endfor %}
+
+                    {% for pic in diary.imgele_set.all %}
+                    <div id="pic{{pic.id}}" style="position: absolute; left: {{pic.x}}px;  
                     width: {{pic.w}}px; height: {{pic.h}}px; z-index: {{pic.zindex}};
                     top: {{pic.y}}px;"><img src="/media/{{pic.img}}" style="width: 100%; height:100%; " alt=""></div>
-                        {% endfor %}
-                    </div>
+                    {% endfor %}
+                </div>
                     <br/>
                     <a href="{% url 'lenotes:edit_diary' group.id diary.id %}" class="btn btn-default">Edit today</a>
                 </li>

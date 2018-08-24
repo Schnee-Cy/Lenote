@@ -26,15 +26,11 @@
         <br/>
         <br/>
         <br/> 
-        <br/>        
+        <br/>     
         <!-- <center><img class="form-login-heading" src="{% static 'img/logo.png' %}" alt="" /></center> -->
         <form class="" method="post" action="{% url 'users:login' %}" novalidate>
             {% csrf_token %} {% if form.errors %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Incorrect username or password.
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
+            <p style="text-align: center; color: grey; font-size: 24px; ">Incorrect username or password.</p>
             </div class="col-xs-4">
             {% endif %}
             <label for="id_username" class="form-control sr-only">Username</label> {{ form.username | add_class:"form-control" | attr:"placeholder:Username"}}

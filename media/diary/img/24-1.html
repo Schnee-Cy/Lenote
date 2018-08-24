@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>立春-Beginning of Spring</title>
+    <style type="text/css">
+        .container{
+            margin:0 auto;
+            width:770px;
+        }
+        #scene{
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+<div id="Layer1" style="position:absolute; width:100%; height:100%; z-index:-1">
+    <img src="background.jpg" height="100%" width="100%"/>
+</div>
+<embed src="24-bgm/立春.mp3" autostart="true" loop="true" hidden="true">
+</embed>
+<div class ="container">
+    <canvas id="scene" width="770" height="770">
+    </canvas>
+</div>
+<script type="text/javascript">
+    var canvas = document.getElementById("scene");
+    var context = canvas.getContext("2d");
+    var ShowText = function (string, x, y) {
+        this.string = string;
+        this.beginY = y - 300;
+        this.x = x;
+        this.y = y;
+    };
+    ShowText.prototype.draw = function (ctx) {
+        context.save();
+        context.font = "30px Times New Roman";
+        context.translate(this.x, this.beginY);
+        context.fillText(this.string, 0, 0);
+        context.restore();
+
+        if (this.beginY <= this.y) {
+            this.beginY += 2;
+        }
+    };
+    var background = new Image();
+    background.src ="24-pic/立春.jpg";
+    context.font = "40px Times New Roman";
+    var text = new ShowText(
+        "律回岁晚冰霜少，" +
+        "春到人间草木知。" , 150, 750);
+    setInterval(function () {
+        context.clearRect(0, 0, 770, 770);
+        context.drawImage(background, 50, 0);
+        context.fillText("Beginning of Spring" , 180 , 710);
+        text.draw(context);
+    }, 1000 / 60);
+
+</script>
+<a href="preface.html"> <font size = 5px >Preface</font> </a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="24-2.html"> <font size = 5px >Next</font> </a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="24-1.html"><font size = 5px >Spring</font></a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="24-7.html"><font size = 5px >Summer</font></a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="24-13.html"><font size = 5px >Autumn</font></a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="24-19.html"><font size = 5px >Winter</font></a>
+</body>
+</html>

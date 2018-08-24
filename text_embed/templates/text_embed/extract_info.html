@@ -1,0 +1,21 @@
+{% extends "lenotes/base.html" %} {% block title %} Extract_info {% endblock %} {% block content %}
+
+<div class="section">
+    <br/>
+    <h2>Extract info</h2>
+    </br>
+
+    <form action="{% url 'text_embed:extract_info' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+
+        <div class="form-group">
+            <label for="afterimg">Image (.png only or 404)</label>
+            <input type="file" name="afterimg" class="form-control" />
+            </br>
+            <button type="submit" class="btn btn-primary">Comfirm</button>
+        </div>
+    </form>
+    <p>{{ text }}</p>
+
+</div>
+
+{% endblock content %}

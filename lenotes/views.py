@@ -78,6 +78,9 @@ def index(request):
         update_userInfo_unread_count(request.user)
     return render(request, 'lenotes/new_index.html')
 
+def extend(request):
+    return render(request, 'lenotes/extend.html')
+
 def about_us(request):
     return render(request, 'lenotes/about_us.html')
 
@@ -348,33 +351,29 @@ def diary_log(request, diary_id):
     context = { 'diary_log': diary_log }
     return render(request, 'lenotes/diary_log.html', context)
 
-def readFile(filename,chunk_size=512):  
-    with open(filename,'rb') as f:  
-        while True:  
-            c = f.read(chunk_size)  
-            if c:  
-                yield c  
-            else:  
-                break
+#def readFile(filename,chunk_size=51200):  
+#    with open(filename,'rb') as f:  
+#        while True:  
+#            c = f.read(chunk_size)  
+#            if c:  
+#                yield c  
+#            else:  
+#                break  
 
-#本地测试使用这一个文件下载
+#def file_download(request):
+#    the_file_name = 'Readme.md'                   
+#    filename = 'Readme.md'      
+#    response = StreamingHttpResponse(readFile(filename))  
+#    response['Content-Type'] = 'application/octet-stream'  
+#    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(the_file_name)  
+#    return response  
+  
 def file_download(request):
-    the_file_name = 'Readme.md'                   
-    filename = 'Readme.md'      
-    response = StreamingHttpResponse(readFile(filename))  
-    response['Content-Type'] = 'application/octet-stream'  
-    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(the_file_name)  
-    return response  
-
-#服务器上使用这一个文件下载
-
-# def file_download(request):
-#     filename = '/home/Lenote/Readme.md'
-#     newfilename = 'Readme.md'
-#     f =open(filename, encoding="ISO-8859-1")
-#     data = f.read()
-#     f.close()
-#     response = HttpResponse(data, content_type='application/octet-stream') 
-#     response['Content-Disposition'] = 'attachment; filename=%s' % newfilename
-#     return response
-
+    filename = '/home/Lenote/Readme.md'
+    newfilename = 'Readme.md'
+    f =open(filename, encoding="utf-8")
+    data = f.read()
+    f.close()
+    response = HttpResponse(data, content_type='application/octet-stream') 
+    response['Content-Disposition'] = 'attachment; filename=%s' % newfilename
+    return response

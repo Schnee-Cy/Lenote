@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('Text_embed/', include('text_embed.urls', namespace='text_embed')),
     path('users/', include('users.urls', namespace='users')),
     path('', include('lenotes.urls', namespace='lenotes')), 
     path('markdownx/', include('markdownx.urls')),

@@ -1,0 +1,23 @@
+{% extends "lenotes/base.html" %} {% block title %} Embedding_info {% endblock %} {% block content %}
+
+<div class="section">
+    <br/>
+    <h2>Embedding info</h2>
+    </br>
+
+    <form action="{% url 'text_embed:embedding_info' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+
+        <div class="form-group">
+            <label for="text">Text</label>
+            <input type="text" class="form-control" name="text">
+            </br>
+            <label for="beforeimg">Image (.png only or 404)</label>
+            <input type="file" name="beforeimg" class="form-control" />
+            </br>
+            <button type="submit" class="btn btn-primary">Comfirm</button>
+        </div>
+    </form>
+
+</div>
+
+{% endblock content %}
