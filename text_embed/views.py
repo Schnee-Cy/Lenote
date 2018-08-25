@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponseRedirect, Http404, StreamingHttpResponse, HttpResponse
+from django.http import Http404, HttpResponse
 from django import forms
 
 from PIL import Image
@@ -9,9 +9,9 @@ import functools
 # Create your views here.
 
 def embedding_info(request):
-    # return render(request, 'text_embed/embedding_info.html')
     if request.method == 'POST':
         text = request.POST['text']
+        text = '#$#' + text
         text += '#%#' #作为结束标记
         
         img = request.FILES.get('beforeimg', None)
@@ -68,8 +68,12 @@ def extract_info(request):
                         bcode = functools.reduce(lambda x, y: str(x) + str(y), extract)
                         cur_char = chr(int(bcode, 2))
                         text += cur_char
+                        if len(text) == 3 and text != '#$#':
+                            content = { 'text':'非标准格式文件，无法解密' }
+                            return render(request, 'text_embed/extract_info.html', content)
                         if cur_char == '#' and text[-3:] == '#%#':
-                            content = { 'text':text[:-3] }
+                            # text = text[3:]
+                            content = { 'text':text[3:-3] }
                             return render(request, 'text_embed/extract_info.html', content)
                         extract = np.array([], dtype=int)
 
