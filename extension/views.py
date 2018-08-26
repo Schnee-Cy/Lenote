@@ -6,7 +6,13 @@ from django import forms
 from PIL import Image
 import numpy as np
 import functools
+
 # Create your views here.
+def extend(request):
+    return render(request, 'extension/extension.html')
+
+def about_us(request):
+    return render(request, 'extension/about_us.html')
 
 def embedding_info(request):
     if request.method == 'POST':
@@ -43,7 +49,7 @@ def embedding_info(request):
         response['Content-Disposition']='attachment;filename="After.png"'  
         return response 
 
-    return render(request, 'text_embed/embedding_info.html')
+    return render(request, 'extension/embedding_info.html')
     
 
 def extract_info(request):
@@ -70,11 +76,10 @@ def extract_info(request):
                         text += cur_char
                         if len(text) == 3 and text != '#$#':
                             content = { 'text':'非标准格式文件，无法解密' }
-                            return render(request, 'text_embed/extract_info.html', content)
+                            return render(request, 'extension/extract_info.html', content)
                         if cur_char == '#' and text[-3:] == '#%#':
-                            # text = text[3:]
                             content = { 'text':text[3:-3] }
-                            return render(request, 'text_embed/extract_info.html', content)
+                            return render(request, 'extension/extract_info.html', content)
                         extract = np.array([], dtype=int)
 
-    return render(request, 'text_embed/extract_info.html')
+    return render(request, 'extension/extract_info.html')

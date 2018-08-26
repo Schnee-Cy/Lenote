@@ -78,12 +78,6 @@ def index(request):
         update_userInfo_unread_count(request.user)
     return render(request, 'lenotes/new_index.html')
 
-def extend(request):
-    return render(request, 'lenotes/extend.html')
-
-def about_us(request):
-    return render(request, 'lenotes/about_us.html')
-
 @login_required
 def group(request, group_id):
     """群组主页"""

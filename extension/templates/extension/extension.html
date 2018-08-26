@@ -1,0 +1,38 @@
+{% extends "lenotes/base.html" %} {% block title %} Extensions {% endblock %} {% block content %} {% block header %} {% load static %}
+
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Extensions.css' %}">
+</head>
+
+
+
+{% endblock %}
+
+
+<div class="section">
+    <br/>
+    <h1>Extensions</h1>
+    <p>
+        Something new only for testing and entertainment.
+    </p>
+    </br>
+    <div id="nav">
+        <p style="font-size:20px"><strong>Text embed:</strong></p>
+        <p>Provide a picture (PNG format) and a paragraph of text. Embedding the text into the picture using 'Embedding info' and extracting the text using 'Extract info'</p>
+        <li><a href="{% url 'extension:embedding_info' %}">Embedding info</a></li>
+        <li><a href="{% url 'extension:extract_info' %}">Extract info</a></li>
+    </div>
+    <div id="nav">
+        <p style="font-size:20px"><strong> Image: 1 → 3 * 3:</strong></p>
+        <p>Image cutting: Cut an image into 3 x 3 small image (can be used in Wechat Moments).</p>
+        <li><a href="{% url 'extension:embedding_info' %}">Embedding info</a></li>
+        <li><a href="{% url 'extension:extract_info' %}">Extract info</a></li>
+    </div>
+    <div id="nav">
+        <p style="font-size:20px"><strong> Coming soon:</strong></p>
+        <p>Waiting for good news!</p>
+    </div>
+</div>
+
+{% endblock content %}

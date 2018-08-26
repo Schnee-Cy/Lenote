@@ -6,10 +6,6 @@ app_name = 'lenotes'
 
 urlpatterns = [
     path('', views.index, name = 'index'),
-
-    path('extend/', views.extend, name = 'extend'),
-    
-    path('about_us/', views.about_us, name = 'about_us'),
     
     #path('group/', views.groups, name = 'groups'),
 

@@ -1,0 +1,19 @@
+#nav {
+    line-height: 30px;
+    background-color: #e1e1e1;
+    height: 250px;
+    width: 350px;
+    float: left;
+    padding: 5px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #717171;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

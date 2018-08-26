@@ -5,7 +5,7 @@
     <h2>Embedding info</h2>
     </br>
 
-    <form action="{% url 'text_embed:embedding_info' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+    <form action="{% url 'extension:embedding_info' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
 
         <div class="form-group">
             <label for="text">Text</label>

@@ -39,10 +39,10 @@
                     <li><a href="{% url 'users:home' %}">Home</a></li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url 'lenotes:extend' %}">Extend</a></li>
+                    <li><a href="{% url 'extension:extend' %}">Extensions</a></li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url 'lenotes:about_us' %}">About us</a></li>
+                    <li><a href="{% url 'extension:about_us' %}">About us</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
@@ -76,8 +76,7 @@
     </nav>
 
     <div class="container">
-
-        <div class="page-header">
+        <div>
             {% block header %}{% endblock %}
         </div>
         <div>
