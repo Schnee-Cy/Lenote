@@ -1,0 +1,33 @@
+{% extends "lenotes/base.html" %} {% load static %} {% block title %} Image cutting {% endblock %} {% block content %}
+
+<div class="section">
+    <br/>
+    <h2>Image cutting</h2>
+    </br>
+    <div align="center">
+        </br>
+        <img src="{% static 'img/example1.jpg' %}" alt="example1" />
+        <img src="{% static 'img/arrow.jpg' %}" alt="arrow" />
+        <img src="{% static 'img/example2.jpg' %}" alt="example2" />
+        <p style="font-size:20px">Example</p>
+        </br>
+    </div>
+    </br>
+    <form action="{% url 'extension:image_cutting' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+        <div class="form-group ">
+            <label>Format:</label>
+            <select class="form-control" name="format">
+                    <option value="3,3">3 * 3</option>
+                    <option value="2,3">2 * 3</option>
+                    <option value="2,2">2 * 2</option>
+            </select>
+            <label for="img ">Image (only support: png, bmp, jpg, jpeg)</label>
+            <input type="file" name="img" class="form-control" />
+            </br>
+            <button type="submit" class="btn btn-primary">Comfirm</button>
+        </div>
+    </form>
+
+</div>
+
+{% endblock content %}

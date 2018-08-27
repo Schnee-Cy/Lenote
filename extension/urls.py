@@ -14,4 +14,6 @@ urlpatterns = [
 
     path('extract_info/', views.extract_info, name = 'extract_info'),
 
+    path('image_cutting/', views.image_cutting, name = 'image_cutting'),
+
 ]
