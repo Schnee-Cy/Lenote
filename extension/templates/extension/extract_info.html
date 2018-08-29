@@ -4,12 +4,13 @@
     <br/>
     <h2>Extract info</h2>
     </br>
+    <P>PS: Provice a Image with infomation, we will check it's format and extracting the text.</P>
 
     <form action="{% url 'extension:extract_info' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
 
         <div class="form-group">
-            <label for="afterimg">Image (.png only or 404)</label>
-            <input type="file" name="afterimg" class="form-control" />
+            <label for='afterimg'>Image (.png only or 404)</label>
+            <input type='file' name='afterimg' class='form-control' />
             </br>
             <button type="submit" class="btn btn-primary">Comfirm</button>
         </div>

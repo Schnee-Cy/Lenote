@@ -16,4 +16,9 @@ urlpatterns = [
 
     path('image_cutting/', views.image_cutting, name = 'image_cutting'),
 
+    path('character_image/', views.character_image, name = 'character_image'),
+
+    path('online_hash_verify/', views.online_hash_verify, name = 'online_hash_verify'),
+
+    path('download_hash_verify/', views.download_hash_verify, name = 'download_hash_verify'),
 ]

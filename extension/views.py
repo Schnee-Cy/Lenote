@@ -5,15 +5,14 @@ from django import forms
 
 from PIL import Image
 import numpy as np
-import functools
-import zipfile, os
+import functools, zipfile, os, hashlib
 
 # Create your views here.
 def download_file(filename, aimname):
     file = open(filename, 'rb')  
     response = HttpResponse(file)  
     response['Content-Type'] = 'application/octet-stream'  
-    response['Content-Disposition'] = f'attachment; filename = {aimname}'  
+    response['Content-Disposition'] = f'attachment; filename = %s' % aimname  
     # response['Content-Disposition'] = f'attachment; filename = {"Text_embed.png"}'  
     return response 
 
@@ -107,7 +106,7 @@ def image_cutting(request):
         imgformat = request.POST['format']
         filename = img.name
 
-        accept_format = ['png', 'jpg', 'jpeg', 'bmp']
+        accept_format = ['png', 'jpg', 'peg', 'bmp']
         if img.name[-3:] not in accept_format:
             raise Http404
 
@@ -124,7 +123,7 @@ def image_cutting(request):
             for c in range(columns):
                 box = (c * colwidth, r * rowheight, (c + 1) * colwidth, (r + 1) * rowheight)
                 i = img.crop(box)
-                i.save('media/Extensions/image_cutting/' + f'{filename[:-4]}{r*3+c}{filename[-4:]}')
+                i.save('media/Extensions/image_cutting/' + filename[:-4] + str(r*3+c) + filename[-4:])
 
         startdir = "media/Extensions/image_cutting" 
         file_news = "media/Extensions/image_cutting.zip"
@@ -133,3 +132,97 @@ def image_cutting(request):
         return download_file('media/Extensions/image_cutting.zip', 'image_cutting.zip')
 
     return render(request, 'extension/image_cutting.html')
+
+# 将256灰度映射到70个字符上
+ascii_char = list(r"$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ")
+
+def get_char(r, g, b, alpha = 256):
+    if alpha == 0:
+        return ' '
+    length = len(ascii_char)
+    gray = int(0.2126 * r + 0.7152 * g + 0.0722 * b)
+
+    unit = (256.0 + 1) / length
+    return ascii_char[int(gray/unit)]
+
+# 检查长宽是否在可接受范围内以及输入时候正确
+def check_wh(src, default):
+    try :
+        src = int(src)
+    except:
+        src = default
+    else:
+        src = default if src not in list(range(10, 150)) else src
+    return src
+
+def character_image(request):
+    if request.method == 'POST':
+        img = request.FILES.get('img', None)
+        imgformat = request.POST['format']
+        
+        accept_format = ['png', 'jpg', 'peg', 'bmp'] #peg -> jpeg
+        if img.name[-3:] not in accept_format:
+            raise Http404
+
+        im = Image.open(img)
+        w, h = im.size
+
+        height = request.POST['height']
+        height = check_wh(height, 80)
+        try:
+            autowidth = request.POST['autowidth']
+        except Exception as e:
+            width = request.POST['width']
+            width = check_wh(width, 120)
+        else:
+            width = w * height // h
+        
+        im = im.resize((width, height), Image.NEAREST)
+
+        txt = ""
+
+        for i in range(height):
+            for j in range(width):
+                txt += get_char(*im.getpixel((j, i)))
+            txt += '\n'
+
+        with open('media/Extensions/character_image.txt', 'w') as f_obj:
+            f_obj.write(txt)
+             
+        return download_file('media/Extensions/character_image.txt', 'character_image.txt')
+
+    return render(request, 'extension/character_image.html')
+
+def online_hash_verify(request):
+    if request.method == 'POST':
+        file = request.FILES.get('file', None)
+
+        with open('media/Extensions/'+file.name, 'wb+') as f:
+            for chunk in file.chunks():
+                f.write(chunk)
+
+        content = {}
+        algorithm_names = ['md5', 'sha1', 'sha256', 'sha512']
+
+        for name in algorithm_names:
+            algorithm = hashlib.new(name)
+
+            # read 1M one time
+            read_size = 1024*1024
+            with open('media/Extensions/'+file.name, 'rb') as f:
+                while True:
+                    b = f.read(read_size)
+                    if b:
+                        algorithm.update(b)
+                    else:
+                        break
+
+            content[name] = algorithm.hexdigest()
+
+        os.remove('media/Extensions/'+file.name)
+        return render(request, 'extension/online_hash_verify.html', content)
+
+    return render(request, 'extension/online_hash_verify.html')
+
+def download_hash_verify(request):
+    return download_file('media/Extensions/hash_verify.zip', 'hash_verify.zip')

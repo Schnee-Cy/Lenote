@@ -1,0 +1,54 @@
+{% extends "lenotes/base.html" %} {% load static %} {% block title %}character image{% endblock %} {% block content %}
+
+<title>选中复选框，相关类变灰</title>
+<script language="JavaScript">
+    function selectKind(the) {
+        var obj = the;
+        var container = document.getElementById("kind_" + obj.name);
+        for (var i = 0; i < container.getElementsByTagName("input").length; i++) {
+            container.getElementsByTagName("input")[i].disabled = obj.checked;
+        }
+    }
+</script>
+
+<div class="section">
+    <br/>
+    <h2>Character Image</h2>
+    </br>
+    <div align="center">
+        </br>
+        <img src="{% static 'img/charcater_image_example1.jpg' %}" alt="example1" />
+        <img src="{% static 'img/arrow.jpg' %}" alt="arrow" />
+        <img src="{% static 'img/charcater_image_example2.jpg' %}" alt="example2" />
+        <p style="font-size:20px">Example</p>
+        </br>
+    </div>
+    </br>
+    <form action="{% url 'extension:character_image' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+        <div class="form-group ">
+            <label>Format:</label>
+            <select class="form-control" name="format">
+                    <option value="Default">Default</option>
+            </select>
+            </br>
+            <label>Height: (10 - 150 default: 80)</label>
+            <input type="text" class="form-control" placeholder="Text input" name='height'>
+            </br>
+            <label>
+                Width: (10 - 150 default: 120)
+                <input type='checkbox' value='1' name='autowidth' checked="checked" onclick="selectKind(this)"> Adjust width automatically
+            </label>
+            <div id="kind_autowidth">
+                <input type="text" class="form-control" placeholder="Text input" name='width' disabled="disabled">
+            </div>
+            </br>
+            <label for='img'>Image (only support: png, bmp, jpg, jpeg)</label>
+            <input type='file' name='img' class='form-control' />
+            </br>
+            <button type='submit' class='btn btn-primary'>Comfirm</button>
+        </div>
+    </form>
+
+</div>
+
+{% endblock content %}

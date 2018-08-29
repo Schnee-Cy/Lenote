@@ -1,0 +1,26 @@
+{% extends "lenotes/base.html" %} {% block title %} Extract info {% endblock %} {% block content %}
+
+<div class="section">
+    <br/>
+    <h2>Online hash verify</h2>
+    </br>
+    <P>PS: Provice a file and we will calculates its hash value.</P>
+
+    <form action="{% url 'extension:online_hash_verify' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+
+        <div class="form-group">
+            <label for='afterimg'>File (PS: size <= 16M)</label>
+            <input type='file' name='file' class='form-control' />
+            </br>
+            <button type="submit" class="btn btn-primary">Comfirm</button>
+        </div>
+    </form>
+    {% ifnotequal md5 None %}
+    <p>md5: {{ md5 }}</p>
+    <p>sha-1: {{ sha1 }}</p>
+    <p>sha-256: {{ sha256 }}</p>
+    <p>sha-512: {{ sha512 }}</p>
+    {% endifnotequal %}
+</div>
+
+{% endblock content %}

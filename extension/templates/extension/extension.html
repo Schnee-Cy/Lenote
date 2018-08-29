@@ -14,20 +14,54 @@
             Something new only for testing and entertainment.
         </p>
         </br>
-        <div id="nav">
-            <p style="font-size:20px"><strong>Text embed:</strong></p>
-            <p>Provide a picture (PNG format) and a paragraph of text. Embedding the text into the picture using 'Embedding info' and extracting the text using 'Extract info'</p>
-            <li><a href="{% url 'extension:embedding_info' %}">Embedding info</a></li>
-            <li><a href="{% url 'extension:extract_info' %}">Extract info</a></li>
+        <div style="width:1140px;height:300px">
+            <h3>Image</h3>
+            <div id="nav">
+                <p style="font-size:20px"><strong>Text embed:</strong></p>
+                <p>Provide a picture (PNG format) and a text.</p>
+                <p>Embedding the text into picture using 'Embedding info'</p>
+                <p>and extracting the text using 'Extract info'</p>
+                <li><a href="{% url 'extension:embedding_info' %}">Embedding info</a></li>
+                <li><a href="{% url 'extension:extract_info' %}">Extract info</a></li>
+            </div>
+            <div id="nav">
+                <p style="font-size:20px"><strong>Image cutting</strong></p>
+                <p>Image cutting: Cut an image into some small image.</p>
+                <p>Provide cut image into 2 * 2, 2 * 3, 3 * 3</p>
+                <p>which can be used in Wechat Moments.</p>
+                <li><a href="{% url 'extension:image_cutting' %}">Image cutting</a></li>
+            </div>
+            <div id="nav">
+                <p style="font-size:20px"><strong>Character Image</strong></p>
+                <p>Converting pictures into character drawings</p>
+                <p>Provide serveral modes for you</p>
+                <li><a href="{% url 'extension:character_image' %}">Character Image</a></li>
+            </div>
         </div>
-        <div id="nav">
-            <p style="font-size:20px"><strong> Image cutting</strong></p>
-            <p>Image cutting: Cut an image into some small image. Provide cut image into 2 * 2, 2 * 3, 3 * 3, which can be used in Wechat Moments.</p>
-            <li><a href="{% url 'extension:image_cutting' %}">Image cutting</a></li>
+        <div style="width:1140px;height:300px">
+            <h3>Game</h3>
+            <div id="nav">
+                <p style="font-size:20px"><strong>Bagels</strong></p>
+                <p>Samll game of number guess</p>
+                <p>coming soon...</p>
+            </div>
         </div>
-        <div id="nav">
-            <p style="font-size:20px"><strong> Coming soon:</strong></p>
-            <p>Waiting for good news!</p>
+        <div style="width:1140px;height:300px">
+            <h3>Security</h3>
+            <div id="nav">
+                <p style="font-size:20px"><strong>Hash Verification</strong></p>
+                <p>Verify the hash value of the file</p>
+                <p>Provide Validation mode:</p>
+                <p>md5, sha-1, sha-256, sha-512</p>
+                <li><a href="{% url 'extension:online_hash_verify' %}">Online Verification</a></li>
+                <li><a href="{% url 'extension:download_hash_verify' %}">Download_program</a></li>
+            </div>
+        </div>
+        <div style="width:1140px;height:300px">
+            <h3>Others</h3>
+            <div id="nav">
+                <p style="font-size:20px"><strong> Coming soon...</strong></p>
+            </div>
         </div>
     </div>
 </body>
