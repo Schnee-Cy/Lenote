@@ -5,7 +5,7 @@ from django import forms
 
 from PIL import Image
 import numpy as np
-import functools, zipfile, os, hashlib
+import functools, zipfile, os, hashlib, random
 
 # Create your views here.
 def download_file(filename, aimname):
@@ -226,3 +226,55 @@ def online_hash_verify(request):
 
 def download_hash_verify(request):
     return download_file('media/Extensions/hash_verify.zip', 'hash_verify.zip')
+
+def tiny_fish(request):
+    return render(request, 'extension/tiny_fish.html')
+
+
+# bagels 
+
+NUM_DIGITS = 3
+MAX_GUESS = 10
+
+def getSecretNum():
+    # 返回一个由 NUM_DIGITS 个不重复随机数组成的字符串
+    numbers = list(range(10))
+    random.shuffle(numbers)
+    secretNum = ''
+    for i in range(NUM_DIGITS):
+        secretNum += str(numbers[i])
+    return secretNum
+
+def getClues(guess, secretNum):
+    # 返回一个由 Pico, Fermi 和 Bagels 组成的，用来提示用户的字符串
+    if guess == secretNum:
+        return 'You got it!'
+
+    clues = []
+    for i in range(len(guess)):
+        if guess[i] == secretNum[i]:
+            clues.append('Fermi')
+        elif guess[i] in secretNum:
+            clues.append('Pico')
+    if len(clues) == 0:
+        return 'Bagels'
+
+    clues.sort()
+    return ' '.join(clues)
+
+def bagels(request):
+    secretNum = getSecretNum()
+    guessesTaken = 1
+
+    if request.method == 'POST':
+        content = {}
+        num1, num2, num3 = request.POST['number1'], request.POST['number2'], request.POST['number3']
+        guess = str(num1) + str(num2) + str(num3)
+        content['result'] = getClues(guess, secretNum)
+        guessesTaken += 1
+        if guess == secretNum:
+            pass
+        if guessesTaken > MAX_GUESS:
+            print('You ran out of guesses. The answer was %s.' % (secretNum))
+    content = { 'names':['number1', 'number2', 'number3'], 'number':[i for i in range(0, 10)]}
+    return render(request, 'extension/bagels.html', content)

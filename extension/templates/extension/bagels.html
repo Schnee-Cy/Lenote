@@ -1,0 +1,32 @@
+{% extends "lenotes/base.html" %} {% load static %} {% block title %} Image cutting {% endblock %} {% block content %}
+
+<div class="section">
+    <br/>
+    <h2>Bagels</h2>
+    <br/>
+    <p>Bagels 是可以和朋友一起玩的一个推理游戏。你的朋友想到一个随机的、没有重复的3位数字，你尝试去猜测它是什么。每次猜测之后，朋友就会给出3种类型的线索：</p>
+    <ul>
+        <li>Bagels：你猜测的3个数都不在神秘数字中；</li>
+        <li>Pico：你猜测的是神秘数字中的一个数，但是位置不对；</li>
+        <li>Fermi：你猜测的是正确位置上的一个正确的数。</li>
+    </ul>
+    <p>计算机会提示多条线索，这些线索按照字母顺序排序。若神秘数字是 456，而你的猜测是 546，那么线索就是“fermi pico pico”。6 提供的线索是“fermi”，5 和 4 提供的线索是“pico pico”</p>
+    <br/>
+    <form action="{% url 'extension:image_cutting' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
+        <div class="form-group" align="center">
+            {% for n in names %}
+            <div class="col-md-4">
+                <select class="form-control" name="n">
+            {% for i in number %}
+                <option>{{i}}</option>
+            {% endfor %}
+            </select>
+            </div>
+            {% endfor %}
+            <br/>
+            <br/>
+            <button type="submit" class="btn btn-primary">Comfirm</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

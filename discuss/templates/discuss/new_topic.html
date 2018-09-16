@@ -1,0 +1,12 @@
+{% extends "lenotes/base.html" %} {% load bootstrap3 %} {% block header %}
+<h2>Create new Topic:</h2>
+{% endblock header %} {% block content %}
+
+<form action="{% url 'discuss:new_topic' %}" method='post' class="form">
+
+    {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+    <button name="submit" class="btn btn-primary">Create Topic</button> {% endbuttons %}
+
+</form>
+
+{% endblock content %}

@@ -3,16 +3,16 @@
 <div class="section">
     <br/>
     <h2>Image cutting</h2>
-    </br>
+    <br/>
     <div align="center">
-        </br>
+        <br/>
         <img src="{% static 'img/example1.jpg' %}" alt="example1" />
         <img src="{% static 'img/arrow.jpg' %}" alt="arrow" />
         <img src="{% static 'img/example2.jpg' %}" alt="example2" />
         <p style="font-size:20px">Example</p>
-        </br>
+        <br/>
     </div>
-    </br>
+    <br/>
     <form action="{% url 'extension:image_cutting' %}" enctype="multipart/form-data" method="POST" class="form">{% csrf_token %}
         <div class="form-group ">
             <label>Format:</label>
@@ -23,7 +23,7 @@
             </select>
             <label for='img'>Image (only support: png, bmp, jpg, jpeg)</label>
             <input type='file' name='img' class='form-control' />
-            </br>
+            <br/>
             <button type="submit" class="btn btn-primary">Comfirm</button>
         </div>
     </form>

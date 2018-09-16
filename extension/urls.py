@@ -21,4 +21,8 @@ urlpatterns = [
     path('online_hash_verify/', views.online_hash_verify, name = 'online_hash_verify'),
 
     path('download_hash_verify/', views.download_hash_verify, name = 'download_hash_verify'),
+
+    path('bagels/', views.bagels, name = 'bagels'),
+
+    path('tiny_fish/', views.tiny_fish, name = 'tiny_fish'),
 ]

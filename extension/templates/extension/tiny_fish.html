@@ -1,0 +1,65 @@
+{% extends "lenotes/base.html" %} {% block header %} {% load static %}
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        body {
+            padding-top: 10px;
+        }
+        
+        .all-bg {
+            width: 1140px;
+            height: 600px;
+            margin: 0 auto;
+        }
+        
+        #allcanvas {
+            position: relative;
+            width: 1140px;
+            height: 600px;
+            margin: 0;
+        }
+        
+        #canvas1 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        #canvas2 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="all_bg" style="align:center">
+        <div id="allcanvas">
+            <canvas id="canvas1" width="1140" height="600"></canvas>
+            <canvas id="canvas2" width="1140" height="600"></canvas>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/commonFunctions.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/background.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/ane.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fruit.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/mom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/collision.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/baby.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/data.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/wave.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/halo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/dust.js' %}"></script>
+</body>
+
+</html>
+
+
+{% endblock %}

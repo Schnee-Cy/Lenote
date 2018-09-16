@@ -1,0 +1,52 @@
+{% extends "lenotes/base.html" %} {% load bootstrap3 %} {% load staticfiles %} {% load base %} {% block title %} Topics {% endblock %} {% block header %}
+<h2>Topic</h2>
+<script type="text/javascript">
+    function delTopicConfirm() {
+        event.returnValue = confirm("Are you sure to delete this topic?")
+    }
+
+    function delDiscussConfirm() {
+        event.returnValue = confirm("Are you sure to delete this discuss?")
+    }
+</script>
+{% endblock header %} {% block content %}
+<hr>
+<div class="section">
+    <br/>
+    <h3>{{topic.name}}</h3>
+    <p>{{topic.topic_owner}} {{topic.date_added}}</p>
+    <hr>
+    <p>{{topic.content | custom_markdown }}</p>
+</div>
+{% ifequal request.user topic.topic_owner %}
+<a href="{% url 'discuss:del_topic' topic.id %}" class="btn btn-danger" onclick="delTopicConfirm()">Delete Topic</a>
+<a href="{% url 'discuss:edit_topic' topic.id %}" class="btn btn-primary">Edit Topic</a> {% endifequal %}
+
+<br/>
+
+<hr>
+<div>
+    <h3>Discuss</h3>
+    {% for dis in discuss_list %}
+    <hr>
+    <p>{{ dis.date_added }} {{ dis.discuss_owner }} : {% if request.user == dis.discuss_owner %}
+        <a href="{% url 'discuss:del_discuss' topic.id dis.id %}" title="Delete" onclick="delDiscussConfirm()">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a>
+        {% elif request.user == topic.topic_owner %}
+        <a href="{% url 'discuss:del_discuss' topic.id dis.id %}" title="Delete" onclick="delDiscussConfirm()">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a>
+        {% endif %}</p> {{dis.content|custom_markdown}} {% empty %}
+    <p>No discuss</p>
+    {% endfor %}
+</div>
+<br/>
+
+<hr>
+<h4>Add your discuss</h4>
+<form action="{% url 'discuss:new_discuss' topic.id %}" method='post' class="form">
+    {% csrf_token %} {% bootstrap_form form %} {% buttons %}
+    <button name="submit" class="btn btn-primary">Add discuss</button> {% endbuttons %}
+</form>
+{% endblock content %}
